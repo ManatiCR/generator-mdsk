@@ -1,0 +1,52 @@
+{
+  "name": "<%= humanName %>",
+  "paths": {
+    "make": "drupal.make.yml",
+    "lock": false,
+    "settings": "settings",
+    "build": "build",
+    "root": "root",
+    "themes": {
+      "root": "themes/",
+      "contrib": "themes/contrib",
+      "custom": "themes/custom"
+    },
+    "modules": {
+      "root": "modules",
+      "contrib": "modules/contrib",
+      "custom": "modules/custom",
+      "features": "modules/features"
+    },
+    "profiles": {
+      "manati": "profiles/<%= appName %>"
+    },
+    "files": {
+      "root": "files"
+    },
+    "builds": "artifacts/"
+  },
+  "extensions": {
+  },
+  "refreshCommands": [
+    [
+      "updb"
+    ],
+    [
+      "cc",
+      "all"
+    ],
+    [
+      "en",
+      "master"
+    ],
+    [
+      "master-execute"
+    ],
+    [
+      "fra"
+    ],
+    [
+      "rr"
+    ]
+  ]
+}

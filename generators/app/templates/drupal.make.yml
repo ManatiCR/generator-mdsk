@@ -1,0 +1,83 @@
+core: 7.x
+api: 2
+
+# Common attributes.
+defaults:
+  projects:
+    subdir: "contrib"
+
+projects:
+  # Core.
+  drops-7:
+    type: "core"
+    download: "git@github.com:pantheon-systems/drops-7.git"
+    #tag: ""
+
+  # Projects.
+  admin_menu:
+    version: ""
+  admin_views:
+    version: ""
+  adminimal_admin_menu:
+    version: ""
+  ckeditor:
+    version: ""
+  ctools:
+    version: ""
+  date:
+    version: ""
+  devel:
+    version: ""
+  diff:
+    version: ""
+  entity:
+    version: ""
+  entityreference:
+    version: ""
+  environment:
+    version: ""
+  environment_indicator:
+    version: ""
+  field_group:
+    version: ""
+  features:
+    version: ""
+  fences:
+    version: ""
+  libraries:
+    version: ""
+  link:
+    version: ""
+  master:
+    version: ""
+  module_filter:
+    version: ""
+  pathauto:
+    version: ""
+  panels:
+    version: ""
+  semantic_panels:
+    version: ""
+  strongarm:
+    version: ""
+  token:
+    version: ""
+  views:
+    version: ""
+  views_bulk_operations:
+    version: ""
+  # Themes.
+  adminimal_theme:
+    version: ""
+    type: "theme"
+
+libraries:
+  registry_rebuild:
+    destination: "drush"
+    download:
+      type: "file"
+      url: "http://ftp.drupal.org/files/projects/registry_rebuild-7.x-2.2.tar.gz"
+  ckeditor:
+    download:
+      type: "file"
+      url: "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.5.4/ckeditor_4.5.4_standard.zip"

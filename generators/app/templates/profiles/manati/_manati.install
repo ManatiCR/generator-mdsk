@@ -1,0 +1,34 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for <%= humanName %> profile.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function <%= appName %>_install() {
+  // Create a default role for site administrators,
+  // with all available permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'administrator';
+  $admin_role->weight = 2;
+  user_role_save($admin_role);
+  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+    ->execute();
+
+  // Enable the admin theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', 'adminimal')
+    ->execute();
+  variable_set('admin_theme', 'adminimal');
+  variable_set('node_admin_theme', '1');
+}
