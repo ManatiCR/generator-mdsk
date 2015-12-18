@@ -6,6 +6,6 @@
 
 $aliases['<%= appName %>.dev'] = array(
   'uri' => '<%= appName %>.dev',
-  'root' => '/home/ubuntu/manati/build',
+  'root' => '/home/ubuntu/<%= appName %>/build',
 );
 
