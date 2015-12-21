@@ -128,6 +128,10 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('files/.gitkeep')
       );
       this.fs.copy(
+        this.templatePath('html/.gitkeep'),
+        this.destinationPath('html/.gitkeep')
+      );
+      this.fs.copy(
         this.templatePath('patches/.gitkeep'),
         this.destinationPath('patches/.gitkeep')
       );
