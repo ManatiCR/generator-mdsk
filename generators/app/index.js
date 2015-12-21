@@ -193,7 +193,7 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.move('circle/_manati', 'circle/'+this.props.appName);
       this.fs.move('circle/_manati.aliases.drushrc.php', 'circle/'+this.props.appName+'.aliases.drushrc.php');
 
-      this.fs.move('wercker/_manati', 'wercker/'+this.props.appName);
+      this.fs.move('wercker/_manati.dev.conf', 'wercker/'+this.props.appName+'.dev.conf');
       this.fs.move('wercker/_manati.aliases.drushrc.php', 'wercker/'+this.props.appName+'.aliases.drushrc.php');
 
       this.fs.move('docs/_build.md', 'docs/build.md');
