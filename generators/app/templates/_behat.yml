@@ -54,4 +54,4 @@ wercker:
       browser_name: chrome
     Drupal\DrupalExtension:
       drupal:
-        drupal_root: "/pipeline/source/<%= appName %>/build"
+        drupal_root: "/pipeline/source/build"
