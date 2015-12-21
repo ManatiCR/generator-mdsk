@@ -57,6 +57,11 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('circle.yml'),
         this.props
       );
+      this.fs.copyTpl(
+        this.templatePath('_wercker.yml'),
+        this.destinationPath('wercker.yml'),
+        this.props
+      );
       this.fs.copy(
         this.templatePath('composer.json'),
         this.destinationPath('composer.json')
@@ -124,6 +129,11 @@ module.exports = yeoman.generators.Base.extend({
         this.props
       );
       this.fs.copyTpl(
+        this.templatePath('wercker'),
+        this.destinationPath('wercker'),
+        this.props
+      );
+      this.fs.copyTpl(
         this.templatePath('docs'),
         this.destinationPath('docs'),
         this.props
@@ -182,6 +192,9 @@ module.exports = yeoman.generators.Base.extend({
     renameFilesAndFolders: function () {
       this.fs.move('circle/_manati', 'circle/'+this.props.appName);
       this.fs.move('circle/_manati.aliases.drushrc.php', 'circle/'+this.props.appName+'.aliases.drushrc.php');
+
+      this.fs.move('wercker/_manati', 'wercker/'+this.props.appName);
+      this.fs.move('wercker/_manati.aliases.drushrc.php', 'wercker/'+this.props.appName+'.aliases.drushrc.php');
 
       this.fs.move('docs/_build.md', 'docs/build.md');
 

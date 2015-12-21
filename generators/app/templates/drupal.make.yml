@@ -10,7 +10,10 @@ projects:
   # Core.
   drops-7:
     type: "core"
-    download: "git@github.com:pantheon-systems/drops-7.git"
+    download:
+      type: "git"
+      url: "https://github.com/pantheon-systems/drops-7.git"
+      branch: "master"
     #tag: ""
 
   # Projects.
@@ -72,11 +75,6 @@ projects:
     type: "theme"
 
 libraries:
-  registry_rebuild:
-    destination: "drush"
-    download:
-      type: "file"
-      url: "http://ftp.drupal.org/files/projects/registry_rebuild-7.x-2.2.tar.gz"
   ckeditor:
     download:
       type: "file"

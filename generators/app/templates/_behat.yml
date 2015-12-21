@@ -46,3 +46,12 @@ circle:
         drupal_root: "/home/ubuntu/<%= appName %>/build"
       drush:
         root: "/home/ubuntu/<%= appName %>/build"
+wercker:
+  extensions:
+    Behat\MinkExtension:
+      base_url: http://<%= appName %>.dev:8082
+      selenium2: ~
+      browser_name: chrome
+    Drupal\DrupalExtension:
+      drupal:
+        drupal_root: "/pipeline/source/<%= appName %>/build"
