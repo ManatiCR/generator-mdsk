@@ -19,7 +19,7 @@
       "features": "modules/features"
     },
     "profiles": {
-      "manati": "profiles/<%= appName %>"
+      "<%= appName %>": "profiles/<%= appName %>"
     },
     "files": {
       "root": "files"
