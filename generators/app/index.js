@@ -116,17 +116,44 @@ module.exports = yeoman.generators.Base.extend({
     },
     projectFolders: function() {
       this.fs.copy(
-        this.templatePath('artifacts'),
-        this.destinationPath('artifacts')
+        this.templatePath('artifacts/.gitkeep'),
+        this.destinationPath('artifacts/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('build'),
-        this.destinationPath('build')
+        this.templatePath('build/.gitkeep'),
+        this.destinationPath('build/.gitkeep')
       );
-      this.fs.copyTpl(
+      this.fs.copy(
+        this.templatePath('files/.gitkeep'),
+        this.destinationPath('files/.gitkeep')
+      );
+      this.fs.copy(
+        this.templatePath('patches/.gitkeep'),
+        this.destinationPath('patches/.gitkeep')
+      );
+      this.fs.copy(
+        this.templatePath('root/.gitkeep'),
+        this.destinationPath('root/.gitkeep')
+      );
+      this.fs.copy(
+        this.templatePath('root/.htaccess'),
+        this.destinationPath('root/.htaccess')
+      );
+      this.fs.copy(
+        this.templatePath('modules/custom/.gitkeep'),
+        this.destinationPath('modules/custom/.gitkeep')
+      );
+      this.fs.copy(
+        this.templatePath('modules/features/.gitkeep'),
+        this.destinationPath('modules/features/.gitkeep')
+      );
+      this.fs.copy(
         this.templatePath('circle'),
-        this.destinationPath('circle'),
-        this.props
+        this.destinationPath('circle')
+      );
+      this.fs.copy(
+        this.templatePath('drush'),
+        this.destinationPath('drush')
       );
       this.fs.copyTpl(
         this.templatePath('wercker'),
