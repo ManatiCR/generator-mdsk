@@ -9,6 +9,7 @@ build:
             wget -q https://deb.nodesource.com/setup_4.x
             chmod +x setup_4.x
             sudo ./setup_4.x
+            rm setup_4.x
             sudo apt-get install nodejs -y
             npm install
             curl -sS https://getcomposer.org/installer | php
@@ -44,6 +45,7 @@ build:
             # Prepare Drupal Installation and Install it.
             # Build the Drupal site and set files permissions.
             ./node_modules/.bin/aquifer build
+            ./node_modules/.bin/aquifer extensions-load
             sudo chown -R www-data:www-data ./build/sites/default/files
             # Set alias.
             drush site-set @<%= appName %>.<%= appName %>.dev
@@ -81,3 +83,9 @@ build:
             sleep 10
             # Behat tests.
             ./vendor/bin/behat -p wercker
+deploy:
+    steps:
+    - script:
+        name: Deploy to pantheon
+        code: |
+            ./node_modules/.bin/aquifer deploy-git -m "Auto deploy commit message"

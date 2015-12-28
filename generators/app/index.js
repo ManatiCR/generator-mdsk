@@ -144,6 +144,10 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('root/.htaccess')
       );
       this.fs.copy(
+        this.templatePath('root/.gitignore'),
+        this.destinationPath('root/.gitignore')
+      );
+      this.fs.copy(
         this.templatePath('modules/custom/.gitkeep'),
         this.destinationPath('modules/custom/.gitkeep')
       );
@@ -218,6 +222,10 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copy(
         this.templatePath('themes'),
         this.destinationPath('themes')
+      );
+      this.fs.copy(
+        this.templatePath('themes/custom/.gitkeep'),
+        this.destinationPath('themes/custom/.gitkeep')
       );
     },
     renameFilesAndFolders: function () {
