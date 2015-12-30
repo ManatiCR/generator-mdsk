@@ -4,16 +4,16 @@ build:
     - script:
         name: Install Dependencies
         code: |
-            sudo apt-get update -y
-            sudo apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd
+            apt-get update -y
+            apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd
             wget -q https://deb.nodesource.com/setup_4.x
             chmod +x setup_4.x
-            sudo ./setup_4.x
+            ./setup_4.x
             rm setup_4.x
-            sudo apt-get install nodejs -y
+            apt-get install nodejs -y
             npm install
             curl -sS https://getcomposer.org/installer | php
-            sudo mv composer.phar /usr/bin/composer
+            mv composer.phar /usr/bin/composer
             composer install --prefer-source --no-interaction
     - script:
         name: Setup Global Stuff
@@ -21,9 +21,9 @@ build:
             # Aquifer will fail unless Drush is installed globally.
             composer global require drush/drush:7.1.* --no-interaction
             # Configure Drush.
-            sudo mkdir -p ~/.drush
+            mkdir -p ~/.drush
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
-            sudo ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
+            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
             # Drupal settings.
             cp ./wercker/settings.secret.php ./settings
             # Configure Solr.
@@ -36,23 +36,23 @@ build:
             #java -jar selenium-server-standalone-2.48.2.jar:
             # Configure Apache.
             cp ./wercker/<%= appName %>.dev.conf /etc/apache2/sites-available/
-            sudo a2ensite <%= appName %>.dev
-            sudo a2enmod rewrite
-            sudo service apache2 restart
+            a2ensite <%= appName %>.dev
+            a2enmod rewrite
+            service apache2 restart
             # Edit hosts file.
-            sudo echo "127.0.0.1 <%= appName %>.dev" >> /etc/hosts
+            echo "127.0.0.1 <%= appName %>.dev" >> /etc/hosts
 
             # Prepare Drupal Installation and Install it.
             # Build the Drupal site and set files permissions.
             ./node_modules/.bin/aquifer build
             ./node_modules/.bin/aquifer extensions-load
-            sudo chown -R www-data:www-data ./build/sites/default/files
+            chown -R www-data:www-data ./build/sites/default/files
             # Set alias.
             drush site-set @<%= appName %>.<%= appName %>.dev
             drush cc drush
             # Start mysql and apache servers.
-            sudo service apache2 start
-            sudo service mysql start
+            service apache2 start
+            service mysql start
             # Create Drupal DB
             mysql -u root -pAdmin2015 -e "create database drupal;"
             # Install Drupal and disable sendmail.
