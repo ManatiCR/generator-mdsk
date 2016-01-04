@@ -20,7 +20,6 @@ gulp.task('drupalcs', function () {
     'themes/**/*.' + extensions,
     'tests/behat/**/*.' + extensions,
     'settings/**/*.' + extensions,
-    '!modules/meredith/**/*.*',
     '!modules/**/*.features.*',
     '!modules/**/*.strongarm.*',
     '!modules/**/*.field_group.inc',

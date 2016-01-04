@@ -65,11 +65,9 @@ $conf['master_modules']['local'] = array(
   'migrate_ui',
   'views_ui',
 );
-// Meredith-hosted Development environment.
+
 $conf['master_modules']['development'] = $conf['master_modules']['local'];
-// Meredith-hosted Test environment.
 $conf['master_modules']['test'] = array();
-// Meredith-hosted Production environment.
 $conf['master_modules']['production'] = array();
 
 $update_free_access = FALSE;

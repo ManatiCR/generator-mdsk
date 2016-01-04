@@ -90,7 +90,7 @@ Prepare the site:
 * `/gulp-tasks` - Individual Gulp tasks.
 * `/modules/custom` - Your custom modules.
 * `/modules/features` - Your features.
-* `/patches` - Drupal and Meredith patches.
+* `/patches` - Drupal patches.
 * `/provisioning` - Drupal VM Ansible playbooks.
 * `/scripts` - Utilities.
 * `/settings/settings.php` - Drupal common settings.

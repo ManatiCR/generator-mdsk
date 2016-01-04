@@ -17,7 +17,6 @@ gulp.task('eslint', function () {
     'gulp-tasks/*.js',
     'modules/**/*.js',
     'themes/**/*.js',
-    '!modules/meredith/**/*.*'
   ];
   var writeOutput = argv.hasOwnProperty('outputfile');
   var wstream;
