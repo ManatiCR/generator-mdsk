@@ -9,7 +9,11 @@ var nsp = require('gulp-nsp');
 var plumber = require('gulp-plumber');
 
 gulp.task('static', function () {
-  return gulp.src('**/*.js')
+  var sourcePatterns = [
+    '**/*.js',
+    '!generators/**/*'
+  ];
+  return gulp.src(sourcePatterns)
     .pipe(excludeGitignore())
     .pipe(eslint())
     .pipe(eslint.format())
