@@ -27,7 +27,7 @@ Apache-2.0 © [Kevin Porras](kporras07.tk)
 
 [npm-image]: https://badge.fury.io/js/generator-mdsk.svg
 [npm-url]: https://npmjs.org/package/generator-mdsk
-[travis-image]: https://travis-ci.org/manaticr/generator-mdsk.svg?branch=master
-[travis-url]: https://travis-ci.org/manaticr/generator-mdsk
+[travis-image]: https://api.travis-ci.org/ManatiCR/generator-mdsk.svg?branch=master
+[travis-url]: https://travis-ci.org/ManatiCR/generator-mdsk
 [daviddm-image]: https://david-dm.org/manaticr/generator-mdsk.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/manaticr/generator-mdsk
