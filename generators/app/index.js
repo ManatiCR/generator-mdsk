@@ -103,19 +103,19 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('Vagrantfile')
       );
       this.fs.copy(
-        this.templatePath('.editorconfig'),
+        this.templatePath('editorconfig'),
         this.destinationPath('.editorconfig')
       );
       this.fs.copy(
-        this.templatePath('.eslintrc'),
+        this.templatePath('eslintrc'),
         this.destinationPath('.eslintrc')
       );
       this.fs.copy(
-        this.templatePath('.gitattributes'),
+        this.templatePath('gitattributes'),
         this.destinationPath('.gitattributes')
       );
       this.fs.copy(
-        this.templatePath('.gitignore'),
+        this.templatePath('gitignore'),
         this.destinationPath('.gitignore')
       );
     },
