@@ -79,6 +79,11 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('config.yml'),
         this.props
       );
+      this.fs.copyTpl(
+        this.templatePath('_example.config.yml'),
+        this.destinationPath('example.config.yml'),
+        this.props
+      );
       this.fs.copy(
         this.templatePath('gulpfile.js'),
         this.destinationPath('gulpfile.js')
