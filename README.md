@@ -10,14 +10,6 @@ npm install -g yo
 npm install -g generator-mdsk
 ```
 
-## Pre-release stage
-While this is not officially published in npm; you can't execute the last command; instead; you should clone this repo, and then run:
-```bash
-npm install
-npm link
-```
-
-
 Then generate your new project:
 
 ```bash
