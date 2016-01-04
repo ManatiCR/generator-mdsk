@@ -17,13 +17,13 @@ module.exports = yeoman.generators.Base.extend({
       name: 'humanName',
       message: 'What\'s your app human name?',
       default: 'Manati'
-    },{
+    }, {
       name: 'appName',
       message: 'What\'s your app machine name?',
-      default: function(props) {
-        return _.snakeCase(props.humanName)
+      default: function (props) {
+        return _.snakeCase(props.humanName);
       }
-    },{
+    }, {
       type: 'confirm',
       name: 'confirm',
       message: 'Please confirm generation',
@@ -119,7 +119,7 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('.gitignore')
       );
     },
-    projectFolders: function() {
+    projectFolders: function () {
       this.fs.copy(
         this.templatePath('artifacts/.gitkeep'),
         this.destinationPath('artifacts/.gitkeep')
@@ -200,7 +200,7 @@ module.exports = yeoman.generators.Base.extend({
       );
       this.fs.copyTpl(
         this.templatePath('profiles/manati'),
-        this.destinationPath('profiles/'+this.props.appName),
+        this.destinationPath('profiles/' + this.props.appName),
         this.props
       );
       this.fs.copy(
@@ -234,20 +234,20 @@ module.exports = yeoman.generators.Base.extend({
       );
     },
     renameFilesAndFolders: function () {
-      this.fs.move('circle/_manati', 'circle/'+this.props.appName);
-      this.fs.move('circle/_manati.aliases.drushrc.php', 'circle/'+this.props.appName+'.aliases.drushrc.php');
+      this.fs.move('circle/_manati', 'circle/' + this.props.appName);
+      this.fs.move('circle/_manati.aliases.drushrc.php', 'circle/' + this.props.appName+'.aliases.drushrc.php');
 
-      this.fs.move('wercker/_manati.dev.conf', 'wercker/'+this.props.appName+'.dev.conf');
-      this.fs.move('wercker/_manati.aliases.drushrc.php', 'wercker/'+this.props.appName+'.aliases.drushrc.php');
+      this.fs.move('wercker/_manati.dev.conf', 'wercker/' + this.props.appName+'.dev.conf');
+      this.fs.move('wercker/_manati.aliases.drushrc.php', 'wercker/' + this.props.appName + '.aliases.drushrc.php');
 
       this.fs.move('docs/_build.md', 'docs/build.md');
 
-      this.fs.move('profiles/'+this.props.appName+'/_manati.info', 'profiles/'+this.props.appName+'/'+this.props.appName+'.info');
-      this.fs.move('profiles/'+this.props.appName+'/_manati.install', 'profiles/'+this.props.appName+'/'+this.props.appName+'.install');
-      this.fs.move('profiles/'+this.props.appName+'/_manati.profile', 'profiles/'+this.props.appName+'/'+this.props.appName+'.profile');
+      this.fs.move('profiles/' + this.props.appName + '/_manati.info', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info');
+      this.fs.move('profiles/' + this.props.appName + '/_manati.install', 'profiles/' + this.props.appName + '/' + this.props.appName + '.install');
+      this.fs.move('profiles/' + this.props.appName + '/_manati.profile', 'profiles/' + this.props.appName + '/' + this.props.appName + '.profile');
 
-      this.fs.move('scripts/_manati_local_features_test.sh', 'scripts/'+this.props.appName+'_local_features_test.sh');
-      this.fs.move('scripts/_manati_local_install.sh', 'scripts/'+this.props.appName+'_local_install.sh');
+      this.fs.move('scripts/_manati_local_features_test.sh', 'scripts/' + this.props.appName + '_local_features_test.sh');
+      this.fs.move('scripts/_manati_local_install.sh', 'scripts/' + this.props.appName + '_local_install.sh');
     }
 
   },
