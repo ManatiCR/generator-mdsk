@@ -121,43 +121,43 @@ module.exports = yeoman.generators.Base.extend({
     },
     projectFolders: function () {
       this.fs.copy(
-        this.templatePath('artifacts/.gitkeep'),
+        this.templatePath('artifacts/gitkeep'),
         this.destinationPath('artifacts/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('build/.gitkeep'),
+        this.templatePath('build/gitkeep'),
         this.destinationPath('build/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('files/.gitkeep'),
+        this.templatePath('files/gitkeep'),
         this.destinationPath('files/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('html/.gitkeep'),
+        this.templatePath('html/gitkeep'),
         this.destinationPath('html/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('patches/.gitkeep'),
+        this.templatePath('patches/gitkeep'),
         this.destinationPath('patches/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('root/.gitkeep'),
+        this.templatePath('root/gitkeep'),
         this.destinationPath('root/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('root/.htaccess'),
+        this.templatePath('root/htaccess'),
         this.destinationPath('root/.htaccess')
       );
       this.fs.copy(
-        this.templatePath('root/.gitignore'),
+        this.templatePath('root/gitignore'),
         this.destinationPath('root/.gitignore')
       );
       this.fs.copy(
-        this.templatePath('modules/custom/.gitkeep'),
+        this.templatePath('modules/custom/gitkeep'),
         this.destinationPath('modules/custom/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('modules/features/.gitkeep'),
+        this.templatePath('modules/features/gitkeep'),
         this.destinationPath('modules/features/.gitkeep')
       );
       this.fs.copy(
@@ -229,7 +229,7 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('themes')
       );
       this.fs.copy(
-        this.templatePath('themes/custom/.gitkeep'),
+        this.templatePath('themes/custom/gitkeep'),
         this.destinationPath('themes/custom/.gitkeep')
       );
     },
