@@ -2,7 +2,7 @@
   "name": "generator-mdsk",
   "version": "0.0.3",
   "description": "Manati Drupal Starter Kit Generator",
-  "homepage": "https://github.com/manaticr/",
+  "homepage": "https://github.com/ManatiCR/",
   "author": {
     "name": "Kevin Porras",
     "email": "kporras07@gmail.com",
@@ -31,7 +31,7 @@
     "gulp-plumber": "^1.0.0",
     "gulp-nsp": "^2.1.0"
   },
-  "repository": "manaticr/generator-mdsk",
+  "repository": "ManatiCR/generator-mdsk",
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
