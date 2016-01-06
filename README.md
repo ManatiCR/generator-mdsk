@@ -75,7 +75,7 @@ This generator has been possible thanks to all the great projects mentioned abov
 
 ## License
 
-Apache-2.0 © [Kevin Porras](kporras07.tk)
+Apache-2.0 © [Manati](http:/www.estudiomanati.com)
 
 
 [npm-image]: https://badge.fury.io/js/generator-mdsk.svg
