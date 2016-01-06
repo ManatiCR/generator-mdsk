@@ -71,7 +71,7 @@ Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he
 
 ## Credits
 
-This generator has been possible thanks to all the great projects mentioned above. We also want to give special thanks to @fluxsauce (and @fourkitchens) for his help and guidance and the folder structure in which this project is inspired.
+This generator has been possible thanks to all the great projects mentioned above. We also want to give special thanks to [@fluxsauce](https://github.com/fluxsauce) (and [@fourkitchens](http://github.com/fourkitchens/)) for his help and guidance and the folder structure in which this project is inspired.
 
 ## License
 
