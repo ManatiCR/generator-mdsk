@@ -66,7 +66,7 @@ Once generated your project; you'll get an structure like this:
 
 ## Usage
 
-For usage instructions; please refer to: [USAGE.md](usage.md)
+For usage instructions; please refer to: [USAGE.md](USAGE.md)
 
 ## Getting To Know Yeoman
 
