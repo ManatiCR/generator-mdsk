@@ -64,6 +64,9 @@ Once generated your project; you'll get an structure like this:
 * `/node_mmodules` - Node contrib packages.
 * `/vendor` - Composer contrib packages.
 
+## Usage
+
+For usage instructions; please refer to: [USAGE.md](usage.md)
 
 ## Getting To Know Yeoman
 
