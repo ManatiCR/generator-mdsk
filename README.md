@@ -7,7 +7,7 @@ Using this generator; you'll get a folder with the below listed structure ready 
 
 Out of the box; you'll get the necessary stuff for building your Drupal site using aquifer, using a virtual machine (created with vagrant and provisioned with ansible); with useful tools to check code quality (eslint, phplint, drupalcs) and some scripts for day-to-day tasks (generate settings, install site, run behat, verify features status).
 
-Besides that; you'll get a [Wercker](http://wercker.com/) config file ready to create a wercker app with necessary build steps and [Pantheon](http://pantheon.io/) deploy. You'll also get the same (but *untested*) for [CircleCI](http://circleci.com/) (without the Pantheon deploy stuff).
+Besides that; you'll get a [Wercker](http://wercker.com/) config file ready to create a wercker app the with necessary build steps and [Pantheon](http://pantheon.io/) deploy. You'll also get the same (but *untested*) for [CircleCI](http://circleci.com/) (without the Pantheon deploy stuff).
 
 ## Installation
 
