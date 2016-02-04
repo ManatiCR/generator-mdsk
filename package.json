@@ -1,6 +1,6 @@
 {
   "name": "generator-mdsk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Manati Drupal Starter Kit Generator",
   "homepage": "https://github.com/ManatiCR/",
   "author": {
@@ -16,17 +16,17 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.21.1",
+    "yeoman-generator": "^0.22.5",
     "chalk": "^1.0.0",
     "yosay": "^1.0.2",
-    "lodash": "~3.10.1"
+    "lodash": "~4.2.1"
   },
   "devDependencies": {
     "yeoman-assert": "^2.0.0",
     "gulp": "^3.6.0",
     "gulp-eslint": "^1.0.0",
     "gulp-exclude-gitignore": "^1.0.0",
-    "gulp-istanbul": "^0.9.0",
+    "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.0.0",
     "gulp-plumber": "^1.0.0",
     "gulp-nsp": "^2.1.0"
