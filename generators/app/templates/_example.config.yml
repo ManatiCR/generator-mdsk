@@ -3,6 +3,7 @@
 # geerlingguy/ubuntu1204, parallels/ubuntu-14.04, etc.
 vagrant_box: geerlingguy/ubuntu1404
 vagrant_user: vagrant
+vagrant_synced_folder_default_type: nfs
 
 # If you need to run multiple instances of Drupal VM, set a unique hostname,
 # machine name, and IP address for each instance.
@@ -47,7 +48,7 @@ install_site: false
 # is 'true').
 drupal_major_version: 7
 drupal_core_path: "/var/www/build"
-drupal_domain: "<%= appName %>.dev"
+drupal_domain: "{{ vagrant_hostname }}"
 drupal_site_name: "Drupal"
 drupal_install_profile: standard
 drupal_enable_modules: [ 'devel' ]
@@ -79,21 +80,31 @@ configure_local_drush_aliases: true
 apache_vhosts:
   - servername: "{{ drupal_domain }}"
     documentroot: "{{ drupal_core_path }}"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ drupal_core_path }}"
 
-  - servername: "adminer.drupalvm.dev"
-    documentroot: "/opt/adminer"
+  - servername: "adminer.{{ vagrant_hostname }}"
+    documentroot: "{{ adminer_install_dir }}"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ adminer_install_dir }}"
 
-  - servername: "xhprof.drupalvm.dev"
-    documentroot: "/usr/share/php/xhprof_html"
+  - servername: "xhprof.{{ vagrant_hostname }}"
+    documentroot: "{{ php_xhprof_html_dir }}"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ php_xhprof_html_dir }}"
 
-  - servername: "pimpmylog.drupalvm.dev"
-    documentroot: "/usr/share/php/pimpmylog"
+  - servername: "pimpmylog.{{ vagrant_hostname }}"
+    documentroot: "{{ pimpmylog_install_dir }}"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ pimpmylog_install_dir }}"
 
 apache_remove_default_vhost: true
 apache_mods_enabled:
   - expires.load
   - ssl.load
   - rewrite.load
+  - proxy.load
+  - proxy_fcgi.load
 
 # Nginx hosts. Each site will get a server entry using the configuration defined
 # here. Set the 'is_php' property for document roots that contain PHP apps like
@@ -134,6 +145,7 @@ mysql_users:
 # to install *any* extras, make set this value to an empty set, e.g. `[]`.
 installed_extras:
   # - adminer
+  # - drupalconsole
   - mailhog
   - memcached
   # - nodejs
@@ -193,6 +205,11 @@ composer_home_path: '/home/vagrant/.composer'
 # composer_global_packages:
 #   - { name: phpunit/phpunit, release: '@stable' }
 
+# Run specified scripts after VM is provisioned. Path is relative to the
+# `provisioning/playbook.yml` file.
+post_provision_scripts: []
+  # - "../examples/scripts/configure-solr.sh"
+
 # MySQL Configuration.
 mysql_root_password: root
 mysql_slow_query_log_enabled: true
@@ -227,3 +244,6 @@ solr_xmx: "128M"
 
 # Selenium configuration
 selenium_version: 2.46.0
+
+# Other configuration.
+known_hosts_path: ~/.ssh/known_hosts
