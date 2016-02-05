@@ -1,4 +1,4 @@
-# generator-mdsk [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-mdsk [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![NPM Info][nodei-image]][nodei-url]
 > Manati Drupal Starter Kit Generator
 
 ## What's in the box?
@@ -87,3 +87,5 @@ Apache-2.0 © [Manati](http:/www.estudiomanati.com)
 [travis-url]: https://travis-ci.org/ManatiCR/generator-mdsk
 [daviddm-image]: https://david-dm.org/manaticr/generator-mdsk.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/manaticr/generator-mdsk
+[nodei-url]: https://nodei.co/npm/generator-mdsk/
+[nodei-image]: https://nodei.co/npm/generator-mdsk.png?downloads=true&downloadRank=true&stars=true
