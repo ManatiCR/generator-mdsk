@@ -25,7 +25,7 @@ build:
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
             ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
             # Drupal settings.
-            cp ./wercker/settings.secret.php ./settings
+            cp ./wercker/wercker.settings.secret.php ./settings/settings.secret.php
             # Configure Solr.
             #cp -R /opt/solr-4.3.1 $HOME/solr
             #curl http://ftp.drupal.org/files/projects/apachesolr-7.x-1.x-dev.tar.gz | tar -xz
@@ -44,7 +44,9 @@ build:
 
             # Prepare Drupal Installation and Install it.
             # Build the Drupal site and set files permissions.
+            chown -R root:www-data ./files
             ./node_modules/.bin/aquifer build
+            chmod 777 -R ./build/sites/default/files
             ./node_modules/.bin/aquifer extensions-load
             chown -R www-data:www-data ./build/sites/default/files
             # Set alias.
