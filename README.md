@@ -61,7 +61,7 @@ Once generated your project; you'll get an structure like this:
 * `/circle` - [CircleCI](http://circleci.com/) necessary files.
 * `wercker.yml` - [Wercker](http://wercker.com/) config file.
 * `/wercker` - [Wercker](http://wercker.com/) necessary files.
-* `/node_mmodules` - Node contrib packages.
+* `/node_modules` - Node contrib packages.
 * `/vendor` - Composer contrib packages.
 
 ## Usage
