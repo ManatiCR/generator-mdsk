@@ -194,10 +194,6 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath('modules'),
         this.destinationPath('modules')
       );
-      this.fs.copy(
-        this.templatePath('patches'),
-        this.destinationPath('patches')
-      );
       this.fs.copyTpl(
         this.templatePath('profiles/manati'),
         this.destinationPath('profiles/' + this.props.appName),
