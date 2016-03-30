@@ -198,6 +198,10 @@ module.exports = yeoman.Base.extend({
         this.templatePath(this.props.version + '/' + 'modules'),
         this.destinationPath('modules')
       );
+      this.fs.copy(
+        this.templatePath(this.props.version + '/' + 'post-provision'),
+        this.destinationPath('post-provision')
+      );
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + 'profiles/manati'),
         this.destinationPath('profiles/' + this.props.appName),
@@ -228,6 +232,12 @@ module.exports = yeoman.Base.extend({
         this.templatePath(this.props.version + '/' + 'themes/custom/gitkeep'),
         this.destinationPath('themes/custom/.gitkeep')
       );
+      if (this.props.version == 8) {
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'root/config/gitkeep'),
+          this.destinationPath('root/config/.gitkeep')
+        );
+      }
     },
     renameFilesAndFolders: function () {
       this.fs.move('circle/_manati', 'circle/' + this.props.appName);
@@ -238,12 +248,18 @@ module.exports = yeoman.Base.extend({
 
       this.fs.move('docs/_build.md', 'docs/build.md');
 
-      this.fs.move('profiles/' + this.props.appName + '/_manati.info', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info');
       this.fs.move('profiles/' + this.props.appName + '/_manati.install', 'profiles/' + this.props.appName + '/' + this.props.appName + '.install');
       this.fs.move('profiles/' + this.props.appName + '/_manati.profile', 'profiles/' + this.props.appName + '/' + this.props.appName + '.profile');
 
       this.fs.move('scripts/_manati_local_features_test.sh', 'scripts/' + this.props.appName + '_local_features_test.sh');
       this.fs.move('scripts/_manati_local_install.sh', 'scripts/' + this.props.appName + '_local_install.sh');
+
+      if (this.props.version == 7) {
+        this.fs.move('profiles/' + this.props.appName + '/_manati.info', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info');
+      }
+      else if (this.props.version == 8) {
+        this.fs.move('profiles/' + this.props.appName + '/_manati.info.yml', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info.yml');
+      }
     }
 
   },
