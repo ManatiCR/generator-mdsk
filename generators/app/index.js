@@ -4,7 +4,7 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
   prompting: function () {
     var done = this.async();
 
@@ -24,10 +24,20 @@ module.exports = yeoman.generators.Base.extend({
         return _.snakeCase(props.humanName);
       }
     }, {
-      type: 'confirm',
-      name: 'confirm',
-      message: 'Please confirm generation',
-      default: true
+      name: 'version',
+      message: 'Drupal Version?',
+      type: 'list',
+      choices: [
+        {
+          name: '7',
+          value: '7'
+        },
+        {
+          name: '8',
+          value: '8'
+        }
+      ],
+      default: 7
     }];
 
     this.prompt(prompts, function (props) {
@@ -36,6 +46,8 @@ module.exports = yeoman.generators.Base.extend({
 
       this.props.humanName = props.humanName;
       this.props.appName = props.appName;
+      this.props.version = props.version;
+
       done();
     }.bind(this));
   },
@@ -43,185 +55,185 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     rootFiles: function () {
       this.fs.copyTpl(
-        this.templatePath('_aquifer.json'),
+        this.templatePath(this.props.version + '/' + '_aquifer.json'),
         this.destinationPath('aquifer.json'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('_behat.yml'),
+        this.templatePath(this.props.version + '/' + '_behat.yml'),
         this.destinationPath('behat.yml'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('_circle.yml'),
+        this.templatePath(this.props.version + '/' + '_circle.yml'),
         this.destinationPath('circle.yml'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('_wercker.yml'),
+        this.templatePath(this.props.version + '/' + '_wercker.yml'),
         this.destinationPath('wercker.yml'),
         this.props
       );
       this.fs.copy(
-        this.templatePath('composer.json'),
+        this.templatePath(this.props.version + '/' + 'composer.json'),
         this.destinationPath('composer.json')
       );
       this.fs.copy(
-        this.templatePath('composer.lock'),
+        this.templatePath(this.props.version + '/' + 'composer.lock'),
         this.destinationPath('composer.lock')
       );
       this.fs.copy(
-        this.templatePath('drupal.make.yml'),
+        this.templatePath(this.props.version + '/' + 'drupal.make.yml'),
         this.destinationPath('drupal.make.yml')
       );
       this.fs.copyTpl(
-        this.templatePath('_example.config.yml'),
+        this.templatePath(this.props.version + '/' + '_example.config.yml'),
         this.destinationPath('config.yml'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('_example.config.yml'),
+        this.templatePath(this.props.version + '/' + '_example.config.yml'),
         this.destinationPath('example.config.yml'),
         this.props
       );
       this.fs.copy(
-        this.templatePath('gulpfile.js'),
+        this.templatePath(this.props.version + '/' + 'gulpfile.js'),
         this.destinationPath('gulpfile.js')
       );
       this.fs.copyTpl(
-        this.templatePath('_package.json'),
+        this.templatePath(this.props.version + '/' + '_package.json'),
         this.destinationPath('package.json'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('_README.md'),
+        this.templatePath(this.props.version + '/' + '_README.md'),
         this.destinationPath('README.md'),
         this.props
       );
       this.fs.copy(
-        this.templatePath('Vagrantfile'),
+        this.templatePath(this.props.version + '/' + 'Vagrantfile'),
         this.destinationPath('Vagrantfile')
       );
       this.fs.copy(
-        this.templatePath('editorconfig'),
+        this.templatePath(this.props.version + '/' + 'editorconfig'),
         this.destinationPath('.editorconfig')
       );
       this.fs.copy(
-        this.templatePath('eslintrc'),
+        this.templatePath(this.props.version + '/' + 'eslintrc'),
         this.destinationPath('.eslintrc')
       );
       this.fs.copy(
-        this.templatePath('gitattributes'),
+        this.templatePath(this.props.version + '/' + 'gitattributes'),
         this.destinationPath('.gitattributes')
       );
       this.fs.copy(
-        this.templatePath('gitignore'),
+        this.templatePath(this.props.version + '/' + 'gitignore'),
         this.destinationPath('.gitignore')
       );
     },
     projectFolders: function () {
       this.fs.copy(
-        this.templatePath('artifacts/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'artifacts/gitkeep'),
         this.destinationPath('artifacts/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('build/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'build/gitkeep'),
         this.destinationPath('build/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('files/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'files/gitkeep'),
         this.destinationPath('files/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('html/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'html/gitkeep'),
         this.destinationPath('html/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('patches/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'patches/gitkeep'),
         this.destinationPath('patches/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('root/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'root/gitkeep'),
         this.destinationPath('root/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('root/htaccess'),
+        this.templatePath(this.props.version + '/' + 'root/htaccess'),
         this.destinationPath('root/.htaccess')
       );
       this.fs.copy(
-        this.templatePath('root/gitignore'),
+        this.templatePath(this.props.version + '/' + 'root/gitignore'),
         this.destinationPath('root/.gitignore')
       );
       this.fs.copy(
-        this.templatePath('modules/custom/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'modules/custom/gitkeep'),
         this.destinationPath('modules/custom/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('modules/features/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'modules/features/gitkeep'),
         this.destinationPath('modules/features/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath('circle'),
+        this.templatePath(this.props.version + '/' + 'circle'),
         this.destinationPath('circle')
       );
       this.fs.copy(
-        this.templatePath('drush'),
+        this.templatePath(this.props.version + '/' + 'drush'),
         this.destinationPath('drush')
       );
       this.fs.copyTpl(
-        this.templatePath('wercker'),
+        this.templatePath(this.props.version + '/' + 'wercker'),
         this.destinationPath('wercker'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('docs'),
+        this.templatePath(this.props.version + '/' + 'docs'),
         this.destinationPath('docs'),
         this.props
       );
       this.fs.copy(
-        this.templatePath('files'),
+        this.templatePath(this.props.version + '/' + 'files'),
         this.destinationPath('files')
       );
       this.fs.copy(
-        this.templatePath('gulp-tasks'),
+        this.templatePath(this.props.version + '/' + 'gulp-tasks'),
         this.destinationPath('gulp-tasks')
       );
       this.fs.copy(
-        this.templatePath('html'),
+        this.templatePath(this.props.version + '/' + 'html'),
         this.destinationPath('html')
       );
       this.fs.copy(
-        this.templatePath('modules'),
+        this.templatePath(this.props.version + '/' + 'modules'),
         this.destinationPath('modules')
       );
       this.fs.copyTpl(
-        this.templatePath('profiles/manati'),
+        this.templatePath(this.props.version + '/' + 'profiles/manati'),
         this.destinationPath('profiles/' + this.props.appName),
         this.props
       );
       this.fs.copy(
-        this.templatePath('provisioning'),
+        this.templatePath(this.props.version + '/' + 'provisioning'),
         this.destinationPath('provisioning')
       );
       this.fs.copyTpl(
-        this.templatePath('scripts'),
+        this.templatePath(this.props.version + '/' + 'scripts'),
         this.destinationPath('scripts'),
         this.props
       );
       this.fs.copy(
-        this.templatePath('settings'),
+        this.templatePath(this.props.version + '/' + 'settings'),
         this.destinationPath('settings')
       );
       this.fs.copy(
-        this.templatePath('tests'),
+        this.templatePath(this.props.version + '/' + 'tests'),
         this.destinationPath('tests')
       );
       this.fs.copy(
-        this.templatePath('themes'),
+        this.templatePath(this.props.version + '/' + 'themes'),
         this.destinationPath('themes')
       );
       this.fs.copy(
-        this.templatePath('themes/custom/gitkeep'),
+        this.templatePath(this.props.version + '/' + 'themes/custom/gitkeep'),
         this.destinationPath('themes/custom/.gitkeep')
       );
     },
