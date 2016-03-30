@@ -3,7 +3,7 @@ DRUSH="./vendor/bin/drush"
 SITE_ALIAS="@<%= appName %>.<%= appName %>.dev"
 $DRUSH $SITE_ALIAS cc drush
 echo "Installing..."
-$DRUSH $SITE_ALIAS si <%= appName %> --account-pass=admin -y
+$DRUSH $SITE_ALIAS si <%= appName %> --account-pass=admin --config-dir=config/sync -y
 #echo "Setting master scope..."
 #$DRUSH $SITE_ALIAS master-set-current-scope local
 #echo "Executing master..."

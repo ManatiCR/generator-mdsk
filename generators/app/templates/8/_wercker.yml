@@ -58,7 +58,7 @@ build:
             # Create Drupal DB
             mysql -u root -pAdmin2015 -e "create database drupal;"
             # Install Drupal and disable sendmail.
-            /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si -y <%= appName %>
+            /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si <%= appName %> --config-dir=config/sync -y
             # Post build configuration.
             drush cc drush
             drush cim -y
@@ -107,8 +107,8 @@ deploy:
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/cli/releases/download/0.10.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
-            terminus auth login $PANTHEON_EMAIL --password="$PANTHEON_PASSWORD"
+            curl https://github.com/pantheon-systems/cli/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
+            terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
         name: Deploy code to pantheon
