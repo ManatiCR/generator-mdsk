@@ -3,6 +3,7 @@
  * @file
  * Drupal site-specific configuration file.
  */
+
 $databases = array();
 
 /**
@@ -33,15 +34,8 @@ ini_set('session.cookie_lifetime', 2000000);
 if (file_exists(DRUPAL_ROOT . '/sites/default/settings.local.php')) {
   include DRUPAL_ROOT . '/sites/default/settings.local.php';
 }
-$databases['default']['default'] = array (
-  'database' => 'drupal',
-  'username' => 'drupal',
-  'password' => 'drupal',
-  'prefix' => '',
-  'host' => 'localhost',
-  'port' => '3306',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'driver' => 'mysql',
-);
+if (file_exists(DRUPAL_ROOT . '/sites/default/settings.pantheon.php')) {
+  include DRUPAL_ROOT . '/sites/default/settings.pantheon.php';
+}
 $settings['install_profile'] = 'dccr_2016';
 $config_directories['sync'] = 'config/sync';
