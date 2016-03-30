@@ -46,6 +46,7 @@ module.exports = yeoman.Base.extend({
 
       this.props.humanName = props.humanName;
       this.props.appName = props.appName;
+      this.props.dashedAppName = props.appName.replace('_', '-');
       this.props.version = props.version;
 
       done();

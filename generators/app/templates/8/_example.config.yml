@@ -7,7 +7,7 @@ vagrant_synced_folder_default_type: nfs
 
 # If you need to run multiple instances of Drupal VM, set a unique hostname,
 # machine name, and IP address for each instance.
-vagrant_hostname: <%= appName %>.dev
+vagrant_hostname: <%= dashedAppName %>.dev
 vagrant_machine_name: <%= appName %>
 vagrant_ip: 0.0.0.0
 
