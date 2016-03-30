@@ -235,8 +235,8 @@ module.exports = yeoman.Base.extend({
       );
       if (this.props.version == 8) {
         this.fs.copy(
-          this.templatePath(this.props.version + '/' + 'root/config/gitkeep'),
-          this.destinationPath('root/config/.gitkeep')
+          this.templatePath(this.props.version + '/' + 'root/config/sync/gitkeep'),
+          this.destinationPath('root/config/sync/.gitkeep')
         );
       }
     },
