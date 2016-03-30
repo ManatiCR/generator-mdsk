@@ -19,7 +19,7 @@ build:
         name: Setup Global Stuff
         code: |
             # Aquifer will fail unless Drush is installed globally.
-            composer global require drush/drush:8.* --no-interaction
+            composer global require drush/drush:8.0.2 --no-interaction
             # Configure Drush.
             mkdir -p ~/.drush
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
@@ -61,9 +61,7 @@ build:
             /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si -y <%= appName %>
             # Post build configuration.
             drush cc drush
-            drush master-set-current-scope local
-            drush master-execute -y
-            drush cc all
+            drush cr
 
     - script:
         name: Test all the things!
