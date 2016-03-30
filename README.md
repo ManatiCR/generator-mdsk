@@ -43,7 +43,7 @@ Once generated your project; you'll get an structure like this:
 * `behat.yml` - [Behat](https://github.com/Behat/Behat) config file.
 * `composer.json` - [Composer](https://getcomposer.org) PHP dependency manager configuration.
 * `composer.lock` - locks Composer to specific versions.
-* `config.yml` - Drupal VM. 
+* `config.yml` - Drupal VM.
 * `drupal.make.yml` - Defines Drupal, contrib projects and patches.
 * `.editorconfig` - Defines and maintains consistent coding styles between different editors
 * `.eslintrc` - JavaScript coding standards.
