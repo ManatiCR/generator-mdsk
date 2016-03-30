@@ -19,7 +19,7 @@ build:
         name: Setup Global Stuff
         code: |
             # Aquifer will fail unless Drush is installed globally.
-            composer global require drush/drush:7.1.* --no-interaction
+            composer global require drush/drush:8.* --no-interaction
             # Configure Drush.
             mkdir -p ~/.drush
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
