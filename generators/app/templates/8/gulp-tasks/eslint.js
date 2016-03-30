@@ -16,7 +16,7 @@ gulp.task('eslint', function () {
     'gulpfile.js',
     'gulp-tasks/*.js',
     'modules/**/*.js',
-    'themes/**/*.js',
+    'themes/**/*.js'
   ];
   var writeOutput = argv.hasOwnProperty('outputfile');
   var wstream;
