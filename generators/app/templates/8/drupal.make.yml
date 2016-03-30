@@ -7,8 +7,15 @@ defaults:
     subdir: "contrib"
 
 projects:
-  drupal:
-    version: ~
+  # Core.
+  drops-8:
+    type: "core"
+    download:
+      type: "git"
+      url: "https://github.com/pantheon-systems/drops-8.git"
+      branch: "master"
+
+  # Projects.
   config_update:
     version: ~
   features:
