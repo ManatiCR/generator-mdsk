@@ -8,5 +8,7 @@ $DRUSH $SITE_ALIAS si <%= appName %> --account-pass=admin -y
 #$DRUSH $SITE_ALIAS master-set-current-scope local
 #echo "Executing master..."
 #$DRUSH $SITE_ALIAS master-execute -y
+echo "Importing config..."
+$DRUSH $SITE_ALIAS cim -y
 echo "Cleaning cache..."
 $DRUSH $SITE_ALIAS cr
