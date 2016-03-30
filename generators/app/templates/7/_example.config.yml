@@ -23,7 +23,7 @@ vagrant_synced_folders:
   # The first synced folder will be used for the default Drupal installation, if
   # build_makefile: is 'true'.
   - local_path: ~/development/<%= appName %>
-    destination: /var/www/
+    destination: /var/www/<%= appName %>
     type: nfs
     create: true
     mount_options: ['vers=3']
@@ -47,7 +47,7 @@ install_site: false
 # Settings for building a Drupal site from a makefile (if 'build_makefile:'
 # is 'true').
 drupal_major_version: 7
-drupal_core_path: "/var/www/build"
+drupal_core_path: "/var/www/<%= appName %>/build"
 drupal_domain: "{{ vagrant_hostname }}"
 drupal_site_name: "Drupal"
 drupal_install_profile: standard

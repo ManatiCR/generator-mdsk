@@ -145,10 +145,6 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('files/.gitkeep')
       );
       this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'html/gitkeep'),
-        this.destinationPath('html/.gitkeep')
-      );
-      this.fs.copy(
         this.templatePath(this.props.version + '/' + 'patches/gitkeep'),
         this.destinationPath('patches/.gitkeep')
       );
@@ -197,10 +193,6 @@ module.exports = yeoman.Base.extend({
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'gulp-tasks'),
         this.destinationPath('gulp-tasks')
-      );
-      this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'html'),
-        this.destinationPath('html')
       );
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'modules'),
