@@ -21,6 +21,7 @@ build/*
 
 # Files
 files/*
+!files/config
 !files/.gitkeep
 
 # Composer

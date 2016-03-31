@@ -36,6 +36,10 @@
       "email": "ci@estudiomanati.com",
       "deploymentFiles": [
         {
+          "src": "files/config",
+          "dest": "sites/default/config"
+        },
+        {
           "src": "root/.gitignore",
           "dest": ".gitignore"
         },

@@ -58,7 +58,7 @@ build:
             # Create Drupal DB
             mysql -u root -pAdmin2015 -e "create database drupal;"
             # Install Drupal and disable sendmail.
-            /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si <%= appName %> --config-dir=config/sync -y
+            /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si <%= appName %> --config-dir=sites/default/files/config/sync -y
             # Post build configuration.
             drush cc drush
             drush cim -y
@@ -107,7 +107,7 @@ deploy:
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/cli/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
+            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
@@ -124,11 +124,11 @@ deploy:
             cp ./wercker/policy.drush.inc ~/.drush/
             drush cc drush
             drush site-set @pantheon.<%= dashedAppName %>.dev
-            drush cc drush --strict=0
-            drush si -y <%= appName %> --strict=0
+            echo 'Set sftp'
+            terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
+            drush si -y <%= appName %> --config-dir=sites/default/config/sync --strict=0
+            echo 'Set git'
+            terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             # Post build configuration.
             drush cc drush --strict=0
-            drush master-set-current-scope development --strict=0
-            drush master-execute -y --strict=0
-            drush cc all --strict=0
-            drush en -y pantheon_api --strict=0
+            drush cr --strict=0

@@ -235,8 +235,8 @@ module.exports = yeoman.Base.extend({
       );
       if (this.props.version == 8) {
         this.fs.copy(
-          this.templatePath(this.props.version + '/' + 'root/config/sync/htaccess'),
-          this.destinationPath('root/config/sync/.htaccess')
+          this.templatePath(this.props.version + '/' + 'files/config/sync/htaccess'),
+          this.destinationPath('files/config/sync/.htaccess')
         );
       }
     },
