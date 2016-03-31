@@ -188,16 +188,8 @@ module.exports = yeoman.Base.extend({
         this.props
       );
       this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'files'),
-        this.destinationPath('files')
-      );
-      this.fs.copy(
         this.templatePath(this.props.version + '/' + 'gulp-tasks'),
         this.destinationPath('gulp-tasks')
-      );
-      this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'modules'),
-        this.destinationPath('modules')
       );
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'post-provision'),
@@ -226,17 +218,14 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('tests')
       );
       this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'themes'),
-        this.destinationPath('themes')
-      );
-      this.fs.copy(
         this.templatePath(this.props.version + '/' + 'themes/custom/gitkeep'),
         this.destinationPath('themes/custom/.gitkeep')
       );
       if (this.props.version == 8) {
-        this.fs.copy(
-          this.templatePath(this.props.version + '/' + 'files/config/sync/htaccess'),
-          this.destinationPath('files/config/sync/.htaccess')
+        this.fs.copyTpl(
+          this.templatePath(this.props.version + '/' + 'files/config/sync'),
+          this.destinationPath('files/config/sync'),
+          this.props
         );
       }
     },
@@ -260,6 +249,7 @@ module.exports = yeoman.Base.extend({
       }
       else if (this.props.version == 8) {
         this.fs.move('profiles/' + this.props.appName + '/_manati.info.yml', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info.yml');
+        this.fs.move('files/config/sync/htaccess', 'files/config/sync/.htaccess');
       }
     }
 
