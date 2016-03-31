@@ -3,36 +3,15 @@ type: profile
 description: 'Installation profile for <%= humanName %>.'
 core: '8.x'
 dependencies:
-  - system
-  - user
   - node
-  - history
   - block
   - breakpoint
-  - ckeditor
   - config
-  - comment
-  - contextual
-  - contact
-  - menu_link_content
-  - datetime
-  - quickedit
-  - editor
-  - help
-  - image
-  - menu_ui
-  - options
-  - path
   - page_cache
   - dynamic_page_cache
-  - taxonomy
   - dblog
   - search
-  - shortcut
   - toolbar
-  - file
-  - rdf
-  - views
 themes:
   - bartik
   - seven
