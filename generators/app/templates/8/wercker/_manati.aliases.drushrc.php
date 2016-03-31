@@ -4,8 +4,8 @@
  * Wercker Drush Aliases.
  */
 
-$aliases['<%= appName %>.dev'] = array(
-  'uri' => '<%= appName %>.dev',
+$aliases['<%= dashedAppName %>.dev'] = array(
+  'uri' => '<%= dashedAppName %>.dev',
   'root' => '/pipeline/source/build',
 );
 
