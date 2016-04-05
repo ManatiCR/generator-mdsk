@@ -58,7 +58,8 @@ build:
             # Create Drupal DB
             mysql -u root -pAdmin2015 -e "create database drupal;"
             # Install Drupal and disable sendmail.
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" && drush si <%=appName %> --config-dir=sites/default/files/config/sync -y ; else /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si <%= appName %> -y ; fi
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" && drush si standard --config-dir=sites/default/files/config/sync -y ; else /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si standard -y ; fi
+            drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
             # Post build configuration.
             drush cc drush
             drush cr
@@ -125,7 +126,8 @@ deploy:
             drush site-set @pantheon.<%= dashedAppName %>.dev
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y --config-dir=sites/default/config/sync --strict=0 ; else drush si <%= appName %> -y ; fi
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si standard -y --config-dir=sites/default/config/sync --strict=0 ; else drush si standard -y ; fi
+            drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
             echo 'Set git'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             # Post build configuration.
