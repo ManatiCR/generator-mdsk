@@ -2,12 +2,18 @@
 sites/*/files
 sites/*/private
 files/*
-cache
+
+# Pantheon commits a settings.php for environment-specific settings.
+# Place local settings in settings.local.php
+sites/*/settings.local.php
+sites/*/services*.yml
 
 # ** Only works in OSs that support newer versions of fnmatch (Bash 4+)
 /sites/default/**/files
 /sites/default/**/private
-/sites/default/settings.secret.php
+
+# Ignore SimpleTest multi-site environment.
+sites/simpletest
 
 # Packages #
 ############
@@ -32,6 +38,7 @@ cache
 .DS_Store*
 ehthumbs.db
 Icon
+
 Thumbs.db
 ._*
 
@@ -43,6 +50,6 @@ Thumbs.db
 ##########
 .sass-cache
 
-# Node #
-########
-node_modules
+# Things in the core directory that Drupal 8 commits in the repository.
+!core/**/*.gz
+
