@@ -125,7 +125,7 @@ deploy:
             drush site-set @pantheon.<%= dashedAppName %>.dev
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; drush si standard --config-dir=sites/default/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else drush si standard -y ; fi
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si standard --config-dir=sites/default/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else drush si standard -y ; fi
             echo 'Set git'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             # Post build configuration.
