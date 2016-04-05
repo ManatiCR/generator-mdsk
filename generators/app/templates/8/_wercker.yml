@@ -113,6 +113,8 @@ deploy:
         name: Deploy code to pantheon
         code: |
             npm install -g aquifer aquifer-git
+            echo 'Ensure we are on git mode'
+            terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch"
     - script:
         name: Deploy steps to pantheon dev
