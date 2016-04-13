@@ -1,0 +1,30 @@
+core: 8.x
+api: 2
+
+# Common attributes.
+defaults:
+  projects:
+    subdir: "contrib"
+
+projects:
+  # Core.
+  drops-8:
+    type: "core"
+    download:
+      type: "git"
+      url: "https://github.com/kporras07/drops-8.git"
+      branch: "master-no-drush-folder"
+
+  # Projects.
+  config_update:
+    version: ~
+  features:
+    version: ~
+  field_group:
+    version: ~
+  panels:
+    version: ~
+  pathauto:
+    version: ~
+  token:
+    version: ~

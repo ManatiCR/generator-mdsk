@@ -1,0 +1,135 @@
+box: linode/lamp
+build:
+    steps:
+    - script:
+        name: Install Dependencies
+        code: |
+            apt-get update -y
+            apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd
+            wget -q https://deb.nodesource.com/setup_4.x
+            chmod +x setup_4.x
+            ./setup_4.x
+            rm setup_4.x
+            apt-get install nodejs -y
+            npm install
+            curl -sS https://getcomposer.org/installer | php
+            mv composer.phar /usr/bin/composer
+            composer install --prefer-source --no-interaction
+    - script:
+        name: Setup Global Stuff
+        code: |
+            # Aquifer will fail unless Drush is installed globally.
+            composer global require drush/drush:8.0.2 --no-interaction
+            # Configure Drush.
+            mkdir -p ~/.drush
+            cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
+            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
+            # Drupal settings.
+            cp ./wercker/wercker.settings.secret.php ./settings/settings.secret.php
+            # Configure Solr.
+            #cp -R /opt/solr-4.3.1 $HOME/solr
+            #curl http://ftp.drupal.org/files/projects/apachesolr-7.x-1.x-dev.tar.gz | tar -xz
+            #cp -r apachesolr/solr-conf/solr-4.x/* $HOME/solr/example/solr/collection1/conf
+            #cd $HOME/solr/example/; java -jar start.jar >> $HOME/solr.log:
+            # Install and start Selenium.
+            #wget http://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
+            #java -jar selenium-server-standalone-2.48.2.jar:
+            # Configure Apache.
+            cp ./wercker/<%= appName %>.dev.conf /etc/apache2/sites-available/
+            a2ensite <%= appName %>.dev
+            a2enmod rewrite
+            service apache2 restart
+            # Edit hosts file.
+            echo "127.0.0.1 <%= appName %>.dev" >> /etc/hosts
+
+            # Prepare Drupal Installation and Install it.
+            # Build the Drupal site and set files permissions.
+            chown -R root:www-data ./files
+            ./node_modules/.bin/aquifer build
+            chmod 777 -R ./build/sites/default/files
+            ./node_modules/.bin/aquifer extensions-load
+            chown -R www-data:www-data ./build/sites/default/files
+            # Set alias.
+            drush site-set @<%= appName %>.<%= dashedAppName %>.dev
+            drush cc drush
+            # Start mysql and apache servers.
+            service apache2 start
+            service mysql start
+            # Create Drupal DB
+            mysql -u root -pAdmin2015 -e "create database drupal;"
+            # Install Drupal and disable sendmail.
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" && drush si standard --config-dir=sites/default/files/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si standard -y ; fi
+            # Post build configuration.
+            drush cc drush
+            drush cr
+
+    - script:
+        name: Test all the things!
+        code: |
+            # PHP Lint.
+            ./node_modules/.bin/gulp phplint
+            # Drupal Coding Standards.
+            ./node_modules/.bin/gulp drupalcs
+            # ESLint.
+            ./node_modules/.bin/gulp eslint
+            # Overridden features.
+            drush @<%= appName %>.<%= appName %>.dev fl | grep -qi 'overridden' && (echo 'Overridden Features FAIL' && exit 1) || (echo 'Overridden Features PASS' && exit 0)
+            # Available updates.
+            drush @<%= appName %>.<%= appName %>.dev ups | grep -qi "update available" && (echo 'Updates available FAIL' && exit 1) || (echo 'No updates available PASS' && exit 0)
+            # Behat tests.
+            ./vendor/bin/behat -p wercker
+deploy:
+    steps:
+    - script:
+        name: Install ssh and other dependencies
+        code: |
+            apt-get update -y
+            apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd ssh-client openssh-client keychain
+    - add-ssh-key:
+        keyname: DEPLOYMENT_KEY
+    - script:
+        name: Install other dependencies
+        code: |
+            eval `ssh-agent`
+            ssh-add /tmp/tmp.*
+            wget -q https://deb.nodesource.com/setup_4.x
+            chmod +x setup_4.x
+            ./setup_4.x
+            rm setup_4.x
+            apt-get install nodejs -y
+            curl -sS https://getcomposer.org/installer | php
+            mv composer.phar /usr/bin/composer
+            composer install --prefer-source --no-interaction
+            npm install
+            composer global require drush/drush:7.1.* --no-interaction
+            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
+    - script:
+        name: Install Pantheon CLI
+        code: |
+            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
+            terminus auth login --machine-token=$PANTHEON_TOKEN
+            terminus sites aliases
+    - script:
+        name: Deploy code to pantheon
+        code: |
+            npm install -g aquifer aquifer-git
+            echo 'Ensure we are on git mode'
+            terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
+            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch"
+    - script:
+        name: Deploy steps to pantheon dev
+        code: |
+            echo 'Host *' >> /root/.ssh/config
+            echo '   StrictHostKeyChecking no' >> /root/.ssh/config
+            mkdir -p ~/.drush
+            cp ./wercker/policy.drush.inc ~/.drush/
+            drush cc drush
+            drush site-set @pantheon.<%= dashedAppName %>.dev
+            echo 'Set sftp'
+            terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si standard --config-dir=sites/default/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else drush si standard -y ; fi
+            echo 'Set git'
+            terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
+            # Post build configuration.
+            drush cc drush --strict=0
+            drush cr --strict=0

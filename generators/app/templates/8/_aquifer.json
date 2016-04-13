@@ -1,0 +1,64 @@
+{
+  "name": "<%= humanName %>",
+  "core": 8,
+  "paths": {
+    "make": "drupal.make.yml",
+    "lock": false,
+    "settings": "settings",
+    "build": "build",
+    "root": "root",
+    "drush": "drush",
+    "themes": {
+      "root": "themes",
+      "contrib": "themes/contrib",
+      "custom": "themes/custom"
+    },
+    "modules": {
+      "root": "modules",
+      "contrib": "modules/contrib",
+      "custom": "modules/custom",
+      "features": "modules/features"
+    },
+    "profiles": {
+      "<%= appName %>": "profiles/<%= appName %>"
+    },
+    "files": {
+      "root": "files"
+    },
+    "builds": "artifacts/"
+  },
+  "extensions": {
+    "aquifer-git": {
+      "source": "aquifer-git",
+      "remote": "",
+      "branch": "master",
+      "name": "CI Bot",
+      "email": "ci@estudiomanati.com",
+      "deploymentFiles": [
+        {
+          "src": "files/config",
+          "dest": "sites/default/config"
+        },
+        {
+          "src": "root/.gitignore",
+          "dest": ".gitignore"
+        },
+        {
+          "src": "root/.htaccess",
+          "dest": ".htaccess"
+        }
+      ],
+      "excludeLinks": ["sites/default/files"],
+      "addlinks": [],
+      "delPatterns": ["*", "!.git"]
+    }
+  },
+  "run": {
+    "scripts": {
+      "refresh": [
+        "drush updb -y",
+        "drush cr -y"
+      ]
+    }
+  }
+}

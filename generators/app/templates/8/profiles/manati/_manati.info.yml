@@ -1,0 +1,17 @@
+name: <%= humanName %>
+type: profile
+description: 'Installation profile for <%= humanName %>.'
+core: '8.x'
+dependencies:
+  - node
+  - block
+  - breakpoint
+  - config
+  - page_cache
+  - dynamic_page_cache
+  - dblog
+  - search
+  - toolbar
+themes:
+  - bartik
+  - seven

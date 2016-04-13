@@ -1,0 +1,11 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for <%= humanName %> profile.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function <%= appName %>_install() {
+}

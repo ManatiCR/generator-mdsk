@@ -1,0 +1,47 @@
+# General ignores
+.DS_Store
+.idea
+*.iml
+*.log
+*.tgz
+node_modules
+
+# Aquifer
+.aquifer
+!.aquifer/.gitkeep
+
+# Apache HTML file.
+html/index.html
+
+# Builds
+artifacts/*
+!artifacts/.gitkeep
+build/*
+!build/.gitkeep
+
+# Files
+files/*
+!files/config
+!files/.gitkeep
+
+# Composer
+vendor
+
+# Settings
+settings.secret.php
+settings.local.php
+!circle/settings.secret.php
+!wercker/settings.secret.php
+
+# Book build output
+docs/_book
+docs/html
+
+# eBook build output
+docs/*.epub
+docs/*.mobi
+docs/*.pdf
+
+# Drupal VM
+config.yml
+.vagrant

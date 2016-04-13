@@ -7,7 +7,7 @@ vagrant_synced_folder_default_type: nfs
 
 # If you need to run multiple instances of Drupal VM, set a unique hostname,
 # machine name, and IP address for each instance.
-vagrant_hostname: <%= appName %>.dev
+vagrant_hostname: <%= dashedAppName %>.dev
 vagrant_machine_name: <%= appName %>
 vagrant_ip: 0.0.0.0
 
@@ -23,7 +23,7 @@ vagrant_synced_folders:
   # The first synced folder will be used for the default Drupal installation, if
   # build_makefile: is 'true'.
   - local_path: ~/development/<%= appName %>
-    destination: /var/www/
+    destination: /var/www/<%= appName %>
     type: nfs
     create: true
     mount_options: ['vers=3']
@@ -38,7 +38,7 @@ drupalvm_webserver: apache
 # Set this to false if you are using a different site deployment strategy and
 # would like to configure 'vagrant_synced_folders' and 'apache_vhosts' manually.
 build_makefile: false
-drush_makefile_path: /vagrant/drupal.make.yml
+drush_makefile_path: ../drupal.make.yml
 
 # Set this to false if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
@@ -46,8 +46,8 @@ install_site: false
 
 # Settings for building a Drupal site from a makefile (if 'build_makefile:'
 # is 'true').
-drupal_major_version: 7
-drupal_core_path: "/var/www/build"
+drupal_major_version: 8
+drupal_core_path: "/var/www/<%= appName %>/build"
 drupal_domain: "{{ vagrant_hostname }}"
 drupal_site_name: "Drupal"
 drupal_install_profile: standard
@@ -83,20 +83,10 @@ apache_vhosts:
     extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ drupal_core_path }}"
 
-  - servername: "adminer.{{ vagrant_hostname }}"
-    documentroot: "{{ adminer_install_dir }}"
-    extra_parameters: |
-          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ adminer_install_dir }}"
-
   - servername: "xhprof.{{ vagrant_hostname }}"
     documentroot: "{{ php_xhprof_html_dir }}"
     extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ php_xhprof_html_dir }}"
-
-  - servername: "pimpmylog.{{ vagrant_hostname }}"
-    documentroot: "{{ pimpmylog_install_dir }}"
-    extra_parameters: |
-          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ pimpmylog_install_dir }}"
 
 apache_remove_default_vhost: true
 apache_mods_enabled:
@@ -145,7 +135,7 @@ mysql_users:
 # to install *any* extras, make set this value to an empty set, e.g. `[]`.
 installed_extras:
   # - adminer
-  # - drupalconsole
+  - drupalconsole
   - mailhog
   - memcached
   # - nodejs
@@ -213,8 +203,8 @@ composer_home_path: '/home/vagrant/.composer'
 
 # Run specified scripts after VM is provisioned. Path is relative to the
 # `provisioning/playbook.yml` file.
-post_provision_scripts: []
-  # - "../examples/scripts/configure-solr.sh"
+post_provision_scripts:
+  - "../post-provision/chrome.sh"
 
 # MySQL Configuration.
 mysql_root_password: root
