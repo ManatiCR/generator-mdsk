@@ -6,26 +6,29 @@
  * @see example.aliases.drushrc.php.
  */
 
-{% set devtool_docroots = [adminer_install_dir, pimpmylog_install_dir, php_xhprof_html_dir] %}
-
 {% macro alias(host, root) %}
+{%- if root not in _devtool_docroots %}
 $aliases['{{ host }}'] = array(
   'uri' => '{{ host }}',
   'root' => '{{ root }}',
 );
 
+{% endif -%}
 {% endmacro %}
 
 {%- if drupalvm_webserver == 'apache' -%}
   {%- for vhost in apache_vhosts -%}
-    {%- if vhost.documentroot not in devtool_docroots -%}
-      {{ alias(vhost.servername, vhost.documentroot) }}
+    {{ alias(vhost.servername, vhost.documentroot) }}
+    {%- if vhost.serveralias is defined -%}
+      {%- for serveralias in vhost.serveralias.split() -%}
+        {{ alias(serveralias, vhost.documentroot) }}
+      {%- endfor -%}
     {%- endif -%}
   {%- endfor -%}
 {%- elif drupalvm_webserver == 'nginx' -%}
   {%- for host in nginx_hosts -%}
-    {%- if host.root not in devtool_docroots -%}
-      {{ alias(host.server_name, host.root) }}
-    {%- endif -%}
+    {%- for server_name in host.server_name.split() -%}
+      {{ alias(server_name, host.root) }}
+    {%- endfor -%}
   {%- endfor -%}
 {%- endif -%}

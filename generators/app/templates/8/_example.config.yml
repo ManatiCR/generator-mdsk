@@ -180,6 +180,32 @@ firewall_log_dropped_packets: false
 
 # PHP Configuration. Currently-supported versions: 5.5, 5.6, 7.0 (experimental).
 php_version: "5.6"
+php_packages:
+  - php5
+  - php5-apcu
+  - php5-mcrypt
+  - php5-cli
+  - php5-common
+  - php5-curl
+  - php5-dev
+  - php5-fpm
+  - php5-gd
+  - php5-sqlite
+  - php-pear
+  - libpcre3-dev
+php_conf_paths:
+  - /etc/php5/fpm
+  - /etc/php5/apache2
+  - /etc/php5/cli
+php_extension_conf_paths:
+  - /etc/php5/fpm/conf.d
+  - /etc/php5/apache2/conf.d
+  - /etc/php5/cli/conf.d
+php_fpm_daemon: php5-fpm
+php_fpm_conf_path: "/etc/php5/fpm"
+php_fpm_pool_conf_path: "/etc/php5/fpm/pool.d/www.conf"
+php_mysql_package: php5-mysql
+php_memcached_package: php5-memcached
 php_memory_limit: "192M"
 php_display_errors: "On"
 php_display_startup_errors: "On"
