@@ -42,5 +42,5 @@ docs/*.mobi
 docs/*.pdf
 
 # Drupal VM
-config.yml
+default.config.yml
 .vagrant
