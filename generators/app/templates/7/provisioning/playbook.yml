@@ -3,13 +3,33 @@
   become: yes
 
   vars_files:
-    - ../config.yml
+    - vars/main.yml
+    - ../default.config.yml
 
   pre_tasks:
+    - name: Define config_dir.
+      set_fact:
+        config_dir: "{{ playbook_dir }}/.."
+      when: config_dir is not defined
+
+    - include_vars: "{{ item }}"
+      with_fileglob:
+        - "{{ config_dir }}/config.yml"
+        - "{{ config_dir }}/local.config.yml"
+
     - include: tasks/init-debian.yml
       when: ansible_os_family == 'Debian'
     - include: tasks/init-redhat.yml
       when: ansible_os_family == 'RedHat'
+
+    - name: Run configured pre-provision shell scripts.
+      script: "{{ item }}"
+      with_items: "{{ pre_provision_scripts|default([]) }}"
+
+    - name: Run configured pre-provision ansible task files.
+      include: "{{ item }}"
+      with_fileglob:
+        - "{{ pre_provision_tasks_dir|default(omit) }}"
 
     - name: Set the PHP webserver daemon correctly when nginx is in use.
       set_fact:
@@ -38,10 +58,12 @@
     - { role: geerlingguy.php-memcached, when: '"memcached" in installed_extras' }
     - { role: geerlingguy.php-xdebug, when: '"xdebug" in installed_extras' }
     - { role: geerlingguy.php-xhprof, when: '"xhprof" in installed_extras' }
+    - { role: geerlingguy.blackfire, when: '"blackfire" in installed_extras' }
     - { role: geerlingguy.adminer, when: '"adminer" in installed_extras' }
     - { role: geerlingguy.pimpmylog, when: '"pimpmylog" in installed_extras' }
     - { role: geerlingguy.daemonize, when: '"mailhog" in installed_extras' }
     - { role: geerlingguy.mailhog, when: '"mailhog" in installed_extras' }
+    - { role: franklinkim.newrelic, when: '"newrelic" in installed_extras' }
     - { role: geerlingguy.nodejs, when: '"nodejs" in installed_extras' }
     - { role: geerlingguy.redis, when: '"redis" in installed_extras' }
     - { role: geerlingguy.php-redis, when: '"redis" in installed_extras' }
@@ -58,6 +80,11 @@
     - name: Check if Drupal is already set up.
       stat: "path={{ drupal_core_path }}/index.php"
       register: drupal_site
+      ignore_errors: true
+
+    - name: Define drupal_site_exists
+      set_fact:
+        drupal_site_exists: "{{ drupal_site.stat.exists|default(false) }}"
 
     - include: tasks/sshd.yml
     - include: tasks/extras.yml
@@ -69,6 +96,14 @@
     - include: tasks/build-makefile.yml
       when: build_makefile
 
+    # Build with composer if configured.
+    - include: tasks/build-composer.yml
+      when: build_composer
+
+    # Build a composer project if configured.
+    - include: tasks/build-composer-project.yml
+      when: build_composer_project
+
     # Install site if configured.
     - include: tasks/install-site.yml
       when: install_site
@@ -76,6 +111,14 @@
     - include: tasks/drush-aliases.yml
     - include: tasks/cron.yml
 
+    - include: tasks/dashboard.yml
+      when: dashboard_install_dir is defined and dashboard_install_dir != ''
+
     - name: Run configured post-provision shell scripts.
       script: "{{ item }}"
-      with_items: post_provision_scripts
+      with_items: "{{ post_provision_scripts|default([]) }}"
+
+    - name: Run configured post-provision ansible task files.
+      include: "{{ item }}"
+      with_fileglob:
+        - "{{ post_provision_tasks_dir|default(omit) }}"
