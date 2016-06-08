@@ -108,8 +108,8 @@ deploy:
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/cli/releases/download/0.10.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
-            terminus auth login $PANTHEON_EMAIL --password="$PANTHEON_PASSWORD"
+            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
+            terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
         name: Deploy code to pantheon
@@ -125,8 +125,12 @@ deploy:
             cp ./wercker/policy.drush.inc ~/.drush/
             drush cc drush
             drush site-set @pantheon.<%= appName %>.dev
+            echo 'Set sftp'
+            terminus site set-connection-mode --site=<%= appName %> --env=dev --mode=sftp
             drush cc drush --strict=0
             drush si -y <%= appName %> --strict=0
+            echo 'Set git'
+            terminus site set-connection-mode --site=<%= appName %> --env=dev --mode=git
             # Post build configuration.
             drush cc drush --strict=0
             drush master-set-current-scope development --strict=0

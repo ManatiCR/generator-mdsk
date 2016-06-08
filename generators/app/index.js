@@ -80,10 +80,6 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('composer.json')
       );
       this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'composer.lock'),
-        this.destinationPath('composer.lock')
-      );
-      this.fs.copy(
         this.templatePath(this.props.version + '/' + 'drupal.make.yml'),
         this.destinationPath('drupal.make.yml')
       );
@@ -245,6 +241,7 @@ module.exports = yeoman.Base.extend({
 
       if (this.props.version == 7) {
         this.fs.move('profiles/' + this.props.appName + '/_manati.info', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info');
+        this.fs.move('profiles/' + this.props.appName + '/_manati.profile', 'profiles/' + this.props.appName + '/' + this.props.appName + '.profile');
       }
       else if (this.props.version == 8) {
         this.fs.move('profiles/' + this.props.appName + '/_manati.info.yml', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info.yml');
