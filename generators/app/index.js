@@ -80,10 +80,6 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('composer.json')
       );
       this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'composer.lock'),
-        this.destinationPath('composer.lock')
-      );
-      this.fs.copy(
         this.templatePath(this.props.version + '/' + 'drupal.make.yml'),
         this.destinationPath('drupal.make.yml')
       );
