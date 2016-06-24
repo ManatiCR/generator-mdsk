@@ -85,7 +85,7 @@ module.exports = yeoman.Base.extend({
       );
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + '_example.config.yml'),
-        this.destinationPath('config.yml'),
+        this.destinationPath('default.config.yml'),
         this.props
       );
       this.fs.copyTpl(
