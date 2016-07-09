@@ -167,12 +167,12 @@ module.exports = yeoman.Base.extend({
       );
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + 'circle'),
-        this.destinationPath('circle')
+        this.destinationPath('circle'),
+        this.props
       );
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'drush'),
-        this.destinationPath('drush'),
-        this.props
+        this.destinationPath('drush')
       );
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + 'wercker'),
