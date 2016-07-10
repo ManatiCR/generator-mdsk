@@ -37,30 +37,8 @@ Prepare the local site:
 Prepare for local development:
 
 * Visit http://editorconfig.org/ for instructions on how to configure your IDE or editor to use the included `.editorconfig` file.
-* `cp example.config.yml config.yml`
-* Edit config.yml and update the following:
-    * Find and replace `drupalvm.dev` with `BRANDNAME.dev`
-    * vagrant_machine_name: `BRANDNAME`
-    * vagrant_ip: `0.0.0.0`
+* Edit default.config.yml and update the following:
     * vagrant_synced_folders - local_path: `your-path` (modify as necessary)
-    * vagrant_memory: `2048`
-    * build_makefile: `false`
-    * install_site: `false`
-    * drupal_major_version: `8`
-    * drupal_core_path: `/var/www/build`
-    * drush_version: `master`
-    * installed_extras:
-      * `# - adminer`
-      * `- mailhog`
-      * `- memcached`
-      * `# - nodejs`
-      * `# - pimpmylog`
-      * `# - ruby`
-      * `- selenium`
-      * `- solr`
-      * `- varnish`
-      * `# - xdebug`
-      * `# - xhprof`
 * [Mac/Linux only] Install Ansible Galaxy roles required for this VM: `sudo ansible-galaxy install -r provisioning/requirements.yml --force`
 
 * `vagrant up`
@@ -76,7 +54,7 @@ Configure Solr search (adapted from
 
 Prepare the site:
 
-* `./scripts/local_install.sh`
+* `./scripts/<%= appName %>_local_install.sh`
 
 ## Structure
 

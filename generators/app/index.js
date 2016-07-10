@@ -85,7 +85,7 @@ module.exports = yeoman.Base.extend({
       );
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + '_example.config.yml'),
-        this.destinationPath('config.yml'),
+        this.destinationPath('default.config.yml'),
         this.props
       );
       this.fs.copyTpl(
@@ -165,9 +165,10 @@ module.exports = yeoman.Base.extend({
         this.templatePath(this.props.version + '/' + 'modules/features/gitkeep'),
         this.destinationPath('modules/features/.gitkeep')
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + 'circle'),
-        this.destinationPath('circle')
+        this.destinationPath('circle'),
+        this.props
       );
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'drush'),
