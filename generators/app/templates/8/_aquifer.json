@@ -35,43 +35,26 @@
         "method": "symlink",
         "conflict": "overwrite"
       },
-      "settings/secret.settings.php": {
-        "destination": "sites/default/secret.settings.php",
+      "settings/settings.secret.php": {
+        "destination": "sites/default/settings.secret.php",
         "method": "symlink",
         "conflict": "overwrite"
       },
-      "settings/local.settings.php": {
-        "destination": "sites/default/local.settings.php",
+      "settings/settings.local.php": {
+        "destination": "sites/default/settings.local.php",
         "method": "symlink",
         "conflict": "overwrite"
       }
     }
   },
-  "paths": {
-    "make": "drupal.make.yml",
-    "lock": false,
-    "settings": "settings",
-    "build": "build",
-    "root": "root",
-    "drush": "drush",
-    "themes": {
-      "root": "themes",
-      "contrib": "themes/contrib",
-      "custom": "themes/custom"
+  "run": {
+    "scripts": {
+      "refresh": [
+        "drush updb -y",
+        "drush cr -y"
+      ]
     },
-    "modules": {
-      "root": "modules",
-      "contrib": "modules/contrib",
-      "custom": "modules/custom",
-      "features": "modules/features"
-    },
-    "profiles": {
-      "<%= appName %>": "profiles/<%= appName %>"
-    },
-    "files": {
-      "root": "files"
-    },
-    "builds": "artifacts/"
+    "postBuild": []
   },
   "extensions": {
     "aquifer-git": {
@@ -97,14 +80,6 @@
       "excludeLinks": ["sites/default/files"],
       "addlinks": [],
       "delPatterns": ["*", "!.git"]
-    }
-  },
-  "run": {
-    "scripts": {
-      "refresh": [
-        "drush updb -y",
-        "drush cr -y"
-      ]
     }
   }
 }
