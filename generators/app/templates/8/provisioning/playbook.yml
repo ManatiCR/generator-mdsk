@@ -101,8 +101,8 @@
       when: build_composer
 
     # Build a composer project if configured.
-    #- include: tasks/build-composer-project.yml
-    #  when: build_composer_project
+    - include: tasks/build-composer-project.yml
+      when: build_composer_project
 
     # Install site if configured.
     - include: tasks/install-site.yml
