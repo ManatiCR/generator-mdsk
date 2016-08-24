@@ -27,12 +27,20 @@ vagrant plugin install vagrant-auto_network
 
 ## Getting started
 
+Create local settings files:
+
+* `./scripts/local_settings.sh`
+
 Prepare the local site:
 
 * `composer install`
 * `npm install`
+
+aquifer build makes drush stop working correctly [see issue](https://github.com/aquifer/aquifer/issues/135). As a workaround move vendor and then restore it.
+* `mv vendor/ .vendor/`
 * `node_modules/.bin/aquifer extensions-load`
 * `node_modules/.bin/aquifer build`
+* `mv .vendor/ vendor/`
 
 Prepare for local development:
 
@@ -43,9 +51,6 @@ Prepare for local development:
 
 * `vagrant up`
 
-Create local settings files:
-
-* `./scripts/local_settings.sh`
 
 Configure Solr search (adapted from
   [Solr for Drupal Developers](http://www.midwesternmac.com/blogs/jeff-geerling/solr-drupal-developers-part-3)):

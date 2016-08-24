@@ -1,6 +1,52 @@
 {
   "name": "<%= humanName %>",
   "core": 8,
+  "build": {
+    "method": "drush make",
+    "directory": "build",
+    "makeFile": "drupal.make.yml"
+  },
+  "sync": {
+    "directories": {
+      "root": {
+        "destination": "",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "modules/custom": {
+        "destination": "modules/custom",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "themes/custom": {
+        "destination": "themes/custom",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "files": {
+        "destination": "sites/default/files",
+        "method": "symlink",
+        "conflict": "overwrite"
+      }
+    },
+    "files": {
+      "settings/settings.php": {
+        "destination": "sites/default/settings.php",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "settings/secret.settings.php": {
+        "destination": "sites/default/secret.settings.php",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "settings/local.settings.php": {
+        "destination": "sites/default/local.settings.php",
+        "method": "symlink",
+        "conflict": "overwrite"
+      }
+    }
+  },
   "paths": {
     "make": "drupal.make.yml",
     "lock": false,
