@@ -59,7 +59,7 @@
         "drush cc all",
         "drush en -y master",
         "drush master-execute -y --scope=local",
-        "drush fra -y",
+        "drush fra -y"
       ]
     },
     "postBuild": []
