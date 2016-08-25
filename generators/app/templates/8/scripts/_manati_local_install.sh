@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-DRUSH="./.vendor/bin/drush"
+if [ -f ./.vendor/bin/drush ] ; then mv ./.vendor ./vendor ; fi
+DRUSH="./vendor/bin/drush"
 SITE_ALIAS="@<%= appName %>.<%= dashedAppName %>.dev"
 $DRUSH $SITE_ALIAS cc drush
 echo "Installing..."
@@ -8,3 +9,4 @@ echo "Importing config..."
 if [ -f ./files/config/sync/core.extension.yml ] ; then $DRUSH $SITE_ALIAS cim -y ; fi
 echo "Cleaning cache..."
 $DRUSH $SITE_ALIAS cr
+mv ./vendor ./.vendor
