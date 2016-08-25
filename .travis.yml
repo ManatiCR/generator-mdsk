@@ -9,6 +9,7 @@ before_script:
 script: npm test
 deploy:
   provider: npm
+  email: kporras07@gmail.com
   api_key: $NPM_TOKEN
   on:
     branch: master
