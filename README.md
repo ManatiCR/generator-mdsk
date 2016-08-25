@@ -62,7 +62,7 @@ Once generated your project; you'll get an structure like this:
 * `wercker.yml` - [Wercker](http://wercker.com/) config file.
 * `/wercker` - [Wercker](http://wercker.com/) necessary files.
 * `/node_modules` - Node contrib packages.
-* `/vendor` - Composer contrib packages.
+* `/.vendor` - Composer contrib packages.
 
 ## Usage
 

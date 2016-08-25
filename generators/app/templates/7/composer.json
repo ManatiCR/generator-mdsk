@@ -1,5 +1,8 @@
 {
   "minimum-stability": "dev",
+  "config": {
+    "vendor-dir": ".vendor"
+  },
   "require": {
     "wikimedia/composer-merge-plugin": "dev-master",
     "drush/drush": "7.2.0"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-DRUSH="./vendor/bin/drush"
+DRUSH="./.vendor/bin/drush"
 SITE_ALIAS="@<%= appName %>.<%= appName %>.dev"
 $DRUSH $SITE_ALIAS cc drush
 echo "Installing..."
