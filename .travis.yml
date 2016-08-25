@@ -7,6 +7,7 @@ before_script:
 script: npm test
 before_deploy:
   - npm install -g gulp
+  - npm install gulp
 deploy:
   provider: npm
   email: kporras07@gmail.com
