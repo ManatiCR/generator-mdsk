@@ -27,39 +27,51 @@ vagrant plugin install vagrant-auto_network
 
 ## Getting started
 
-Create local settings files:
+### Prepare for local development:
 
-* `./scripts/local_settings.sh`
+##### Configure IDE
+Visit http://editorconfig.org/ for instructions on how to configure your IDE or editor to use the included `.editorconfig` file.
+##### Edit default.config.yml
+`nano default.config.yml`
 
-Prepare the local site:
+and update the following:
+* vagrant_synced_folders - local_path: `your-path` (modify as necessary)
 
-* `composer install`
-* `npm install`
+##### On Mac/Linux [only] Install Ansible Galaxy roles required for this VM:
+`sudo ansible-galaxy install -r provisioning/requirements.yml --force`
 
-aquifer build makes drush stop working correctly [see issue](https://github.com/aquifer/aquifer/issues/135). As a workaround move vendor and then restore it.
-* `mv vendor/ .vendor/`
-* `node_modules/.bin/aquifer extensions-load`
-* `node_modules/.bin/aquifer build`
-* `mv .vendor/ vendor/`
+## Lift vagrant
+This process takes a while, so do it in a different terminal so
+you can continue with the rest while this is running.
 
-Prepare for local development:
+ `vagrant up`
 
-* Visit http://editorconfig.org/ for instructions on how to configure your IDE or editor to use the included `.editorconfig` file.
-* Edit default.config.yml and update the following:
-    * vagrant_synced_folders - local_path: `your-path` (modify as necessary)
-* [Mac/Linux only] Install Ansible Galaxy roles required for this VM: `sudo ansible-galaxy install -r provisioning/requirements.yml --force`
+## While vagrant is provisioning
 
-* `vagrant up`
+### Prepare the site:
 
+* Create local settings files and prepare the local site:
+```
+./scripts/local_settings.sh
+composer install
+npm install
+```
 
-Configure Solr search (adapted from
-  [Solr for Drupal Developers](http://www.midwesternmac.com/blogs/jeff-geerling/solr-drupal-developers-part-3)):
+* Build drupal doc root (Aquifer build makes drush stop working correctly [see issue 135](https://github.com/aquifer/aquifer/issues/135). As a workaround move vendor, run aquifer scripts and finally restore vendor directory):
+```
+mv vendor/ .vendor/
+node_modules/.bin/aquifer extensions-load
+node_modules/.bin/aquifer build
+mv .vendor/ vendor/
+```
 
-* `./scripts/drupalvm_solr.sh`
-
-Prepare the site:
-
-* `./scripts/<%= appName %>_local_install.sh`
+## Finally
+Once vagrant has finished provisioning and you have prepared the site finally:
+* Configure Solr search (adapted from [Solr for Drupal Developers](http://www.midwesternmac.com/blogs/jeff-geerling/solr-drupal-developers-part-3)) and prepare the site:
+```
+./scripts/<%= appName %>_local_install.sh`
+./scripts/drupalvm_solr.sh
+```
 
 ## Structure
 
