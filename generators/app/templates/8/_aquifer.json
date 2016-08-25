@@ -1,31 +1,60 @@
 {
   "name": "<%= humanName %>",
   "core": 8,
-  "paths": {
-    "make": "drupal.make.yml",
-    "lock": false,
-    "settings": "settings",
-    "build": "build",
-    "root": "root",
-    "drush": "drush",
-    "themes": {
-      "root": "themes",
-      "contrib": "themes/contrib",
-      "custom": "themes/custom"
-    },
-    "modules": {
-      "root": "modules",
-      "contrib": "modules/contrib",
-      "custom": "modules/custom",
-      "features": "modules/features"
-    },
-    "profiles": {
-      "<%= appName %>": "profiles/<%= appName %>"
+  "build": {
+    "method": "drush make",
+    "directory": "build",
+    "makeFile": "drupal.make.yml"
+  },
+  "sync": {
+    "directories": {
+      "root": {
+        "destination": "",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "modules/custom": {
+        "destination": "modules/custom",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "themes/custom": {
+        "destination": "themes/custom",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "files": {
+        "destination": "sites/default/files",
+        "method": "symlink",
+        "conflict": "overwrite"
+      }
     },
     "files": {
-      "root": "files"
+      "settings/settings.php": {
+        "destination": "sites/default/settings.php",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "settings/settings.secret.php": {
+        "destination": "sites/default/settings.secret.php",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
+      "settings/settings.local.php": {
+        "destination": "sites/default/settings.local.php",
+        "method": "symlink",
+        "conflict": "overwrite"
+      }
+    }
+  },
+  "run": {
+    "scripts": {
+      "refresh": [
+        "drush updb -y",
+        "drush cr -y"
+      ]
     },
-    "builds": "artifacts/"
+    "postBuild": []
   },
   "extensions": {
     "aquifer-git": {
@@ -51,14 +80,6 @@
       "excludeLinks": ["sites/default/files"],
       "addlinks": [],
       "delPatterns": ["*", "!.git"]
-    }
-  },
-  "run": {
-    "scripts": {
-      "refresh": [
-        "drush updb -y",
-        "drush cr -y"
-      ]
     }
   }
 }

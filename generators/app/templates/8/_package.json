@@ -2,7 +2,7 @@
   "name": "<%= appName %>",
   "private": true,
   "devDependencies": {
-    "aquifer": "aquifer/aquifer#3634f452d7d",
+    "aquifer": "aquifer/aquifer#42d0e8d",
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.0.0",
     "gulp-if": "^2.0.0",

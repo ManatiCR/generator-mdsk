@@ -12,7 +12,7 @@
     }
   },
   "require-dev": {
-    "drush/drush": "7.2.0",
+    "drush/drush": "8.1.0",
     "squizlabs/php_codesniffer": "2.5.1",
     "drupal/coder": "8.2.5",
     "drupal/drupal-extension": "3.1.5",
