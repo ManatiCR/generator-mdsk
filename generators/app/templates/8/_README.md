@@ -57,12 +57,9 @@ composer install
 npm install
 ```
 
-* Build drupal doc root (Aquifer build makes drush stop working correctly [see issue 135](https://github.com/aquifer/aquifer/issues/135). As a workaround move vendor, run aquifer scripts and finally restore vendor directory):
 ```
-mv vendor/ .vendor/
 node_modules/.bin/aquifer extensions-load
 node_modules/.bin/aquifer build
-mv .vendor/ vendor/
 ```
 
 ## Finally
