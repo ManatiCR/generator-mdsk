@@ -5,6 +5,8 @@
 /* eslint-env node */
 /* eslint no-console:0 */
 
+'use strict';
+
 var gulp = require('gulp');
 var through2 = require('through2');
 var gutil = require('gulp-util');
@@ -12,7 +14,6 @@ var argv = require('minimist')(process.argv.slice(2));
 var exec = require('sync-exec');
 
 gulp.task('drupalcs', function () {
-  'use strict';
   // Source file defaults to a pattern.
   var extensions = '{php,module,inc,install,test,profile,theme}';
   var sourcePatterns = [

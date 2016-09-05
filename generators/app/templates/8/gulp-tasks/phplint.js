@@ -5,12 +5,13 @@
 /* eslint-env node */
 /* eslint no-console:0 */
 
+'use strict';
+
 var gulp = require('gulp');
 var phplint = require('phplint').lint;
 var gutil = require('gulp-util');
 
 gulp.task('phplint', function (cb) {
-  'use strict';
 
   var extensions = '{php,module,inc,install,test,profile,theme}';
   var sourcePatterns = [

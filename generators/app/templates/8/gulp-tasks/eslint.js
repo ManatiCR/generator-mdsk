@@ -4,6 +4,8 @@
  */
 /* eslint-env node */
 
+'use strict';
+
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var fs = require('fs');
@@ -11,7 +13,6 @@ var argv = require('minimist')(process.argv.slice(2));
 var gulpif = require('gulp-if');
 
 gulp.task('eslint', function () {
-  'use strict';
   var sourcePatterns = [
     'gulpfile.js',
     'gulp-tasks/*.js',
