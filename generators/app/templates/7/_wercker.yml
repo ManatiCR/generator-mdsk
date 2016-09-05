@@ -1,27 +1,14 @@
-box: linode/lamp
+box: kporras07/drupal-wercker
 build:
     steps:
     - script:
         name: Install Dependencies
         code: |
-            apt-get update -y
-            apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd
-            wget -q https://deb.nodesource.com/setup_4.x
-            chmod +x setup_4.x
-            ./setup_4.x
-            rm setup_4.x
-            apt-get install nodejs -y
             npm install
-            curl -sS https://getcomposer.org/installer | php
-            mv composer.phar /usr/bin/composer
             composer install --prefer-source --no-interaction
     - script:
         name: Setup Global Stuff
         code: |
-            # Aquifer will fail unless Drush is installed globally.
-            composer global require drush/drush:7.1.* --no-interaction
-            # Configure Drush.
-            mkdir -p ~/.drush
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
             ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
             # Drupal settings.
@@ -94,21 +81,11 @@ deploy:
         code: |
             eval `ssh-agent`
             ssh-add /tmp/tmp.*
-            wget -q https://deb.nodesource.com/setup_4.x
-            chmod +x setup_4.x
-            ./setup_4.x
-            rm setup_4.x
-            apt-get install nodejs -y
-            curl -sS https://getcomposer.org/installer | php
-            mv composer.phar /usr/bin/composer
             composer install --prefer-source --no-interaction
             npm install
-            composer global require drush/drush:7.1.* --no-interaction
-            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
@@ -149,21 +126,11 @@ deploy-test:
         code: |
             eval `ssh-agent`
             ssh-add /tmp/tmp.*
-            wget -q https://deb.nodesource.com/setup_4.x
-            chmod +x setup_4.x
-            ./setup_4.x
-            rm setup_4.x
-            apt-get install nodejs -y
-            curl -sS https://getcomposer.org/installer | php
-            mv composer.phar /usr/bin/composer
             composer install --prefer-source --no-interaction
             npm install
-            composer global require drush/drush:7.1.* --no-interaction
-            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
@@ -201,21 +168,11 @@ deploy-live:
         code: |
             eval `ssh-agent`
             ssh-add /tmp/tmp.*
-            wget -q https://deb.nodesource.com/setup_4.x
-            chmod +x setup_4.x
-            ./setup_4.x
-            rm setup_4.x
-            apt-get install nodejs -y
-            curl -sS https://getcomposer.org/installer | php
-            mv composer.phar /usr/bin/composer
             composer install --prefer-source --no-interaction
             npm install
-            composer global require drush/drush:7.1.* --no-interaction
-            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
@@ -252,17 +209,8 @@ deploy-multidev:
         code: |
             eval `ssh-agent`
             ssh-add /tmp/tmp.*
-            wget -q https://deb.nodesource.com/setup_4.x
-            chmod +x setup_4.x
-            ./setup_4.x
-            rm setup_4.x
-            apt-get install nodejs -y
-            curl -sS https://getcomposer.org/installer | php
-            mv composer.phar /usr/bin/composer
-            composer install --prefer-source --no-interaction
             npm install
             composer global require drush/drush:7.1.* --no-interaction
-            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
     - script:
         name: Install Pantheon CLI
         code: |

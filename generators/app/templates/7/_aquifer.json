@@ -28,6 +28,11 @@
         "method": "symlink",
         "conflict": "overwrite"
       },
+      "profiles/<%= appName %>": {
+        "destination": "profiles/<%= appName %>",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
       "files": {
         "destination": "sites/default/files",
         "method": "symlink",
