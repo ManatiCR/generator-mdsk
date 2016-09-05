@@ -27,11 +27,17 @@ vagrant plugin install vagrant-auto_network
 
 ## Getting started
 
-Prepare the local site:
+### Prepare the local site:
 
+Create local settings files:
+
+* `./scripts/local_settings.sh`
+
+Install Dependencies:
 * `composer install`
 * `npm install`
-* `node_modules/.bin/aquifer extensions-load`
+
+Build Site:
 * `node_modules/.bin/aquifer build`
 
 Prepare for local development:
@@ -43,9 +49,6 @@ Prepare for local development:
 
 * `vagrant up`
 
-Create local settings files:
-
-* `./scripts/local_settings.sh`
 
 Configure Solr search (adapted from
   [Solr for Drupal Developers](http://www.midwesternmac.com/blogs/jeff-geerling/solr-drupal-developers-part-3)):
