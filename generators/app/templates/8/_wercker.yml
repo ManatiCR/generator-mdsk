@@ -110,3 +110,130 @@ deploy:
             # Post build configuration.
             drush cc drush --strict=0
             drush cr --strict=0
+deploy-test:
+    steps:
+    - script:
+        name: Install ssh and other dependencies
+        code: |
+            apt-get update -y
+            apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd ssh-client openssh-client keychain
+    - add-ssh-key:
+        keyname: DEPLOYMENT_KEY
+    - script:
+        name: Install other dependencies
+        code: |
+            eval `ssh-agent`
+            ssh-add /tmp/tmp.*
+            composer install --prefer-source --no-interaction
+            npm install
+    - script:
+        name: Install Pantheon CLI
+        code: |
+            terminus auth login --machine-token=$PANTHEON_TOKEN
+            terminus sites aliases
+    - script:
+        name: Deploy code to test
+        code: |
+            terminus site deploy --site=<%= appName %> --env=test --sync-content --note="Deployed from wercker UI"
+    - script:
+        name: Deploy steps to pantheon test
+        code: |
+            echo 'Host *' >> /root/.ssh/config
+            echo '   StrictHostKeyChecking no' >> /root/.ssh/config
+            mkdir -p ~/.drush
+            cp ./wercker/policy.drush.inc ~/.drush/
+            # Post build configuration.
+            terminus drush --site=<%= appName %> --env=test "sqlsan -y --strict=0"
+            terminus drush --site=<%= appName %> --env=test "cc drush --strict=0"
+            terminus drush --site=<%= appName %> --env=test "updb -y --strict=0"
+            terminus drush --site=<%= appName %> --env=test "cim -y --strict=0"
+            terminus drush --site=<%= appName %> --env=test "cr --strict=0"
+deploy-live:
+    steps:
+    - script:
+        name: Install ssh and other dependencies
+        code: |
+            apt-get update -y
+            apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd ssh-client openssh-client keychain
+    - add-ssh-key:
+        keyname: DEPLOYMENT_KEY
+    - script:
+        name: Install other dependencies
+        code: |
+            eval `ssh-agent`
+            ssh-add /tmp/tmp.*
+            composer install --prefer-source --no-interaction
+            npm install
+    - script:
+        name: Install Pantheon CLI
+        code: |
+            terminus auth login --machine-token=$PANTHEON_TOKEN
+            terminus sites aliases
+    - script:
+        name: Deploy code to live
+        code: |
+            terminus site deploy --site=<%= appName %> --env=live --note="Deployed from wercker UI"
+    - script:
+        name: Deploy steps to pantheon live
+        code: |
+            echo 'Host *' >> /root/.ssh/config
+            echo '   StrictHostKeyChecking no' >> /root/.ssh/config
+            mkdir -p ~/.drush
+            cp ./wercker/policy.drush.inc ~/.drush/
+            # Post build configuration.
+            terminus drush --site=<%= appName %> --env=live "sqlsan -y --strict=0"
+            terminus drush --site=<%= appName %> --env=live "cc drush --strict=0"
+            terminus drush --site=<%= appName %> --env=live "updb -y --strict=0"
+            terminus drush --site=<%= appName %> --env=live "cim -y --strict=0"
+            terminus drush --site=<%= appName %> --env=live "cr --strict=0"
+deploy-multidev:
+    steps:
+    - script:
+        name: Install ssh and other dependencies
+        code: |
+            apt-get update -y
+            apt-get install -y build-essential curl wget git php5-curl unzip php5-mysql php5-gd ssh-client openssh-client keychain
+    - add-ssh-key:
+        keyname: DEPLOYMENT_KEY
+    - script:
+        name: Install other dependencies
+        code: |
+            eval `ssh-agent`
+            ssh-add /tmp/tmp.*
+            npm install
+            composer global require drush/drush:7.1.* --no-interaction
+    - script:
+        name: Install Pantheon CLI
+        code: |
+            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
+            terminus auth login --machine-token=$PANTHEON_TOKEN
+            terminus sites aliases
+    - script:
+        name: Deploy code to pantheon
+        code: |
+            npm install -g aquifer aquifer-git
+            NEWBRANCH=$WERCKER_GIT_BRANCH
+            LENGTH=${#NEWBRANCH}
+            if [ LENGTH > 10 ] ; then NEWBRANCH=${NEWBRANCH:8:6} ; fi
+            NEWBRANCH=${NEWBRANCH//-/}
+            NEWBRANCH=${NEWBRANCH,,}
+            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" -b $NEWBRANCH
+    - script:
+        name: Deploy steps to pantheon dev
+        code: |
+            echo 'Host *' >> /root/.ssh/config
+            echo '   StrictHostKeyChecking no' >> /root/.ssh/config
+            mkdir -p ~/.drush
+            cp ./wercker/policy.drush.inc ~/.drush/
+            terminus site create-env --site=<%= appName %> --to-env=$NEWBRANCH --from-env=dev
+            terminus sites aliases
+            drush site-set @pantheon.<%= dashedAppName %>.$NEWBRANCH
+            echo 'Set sftp'
+            terminus site set-connection-mode --site=<%= appName %> --env=$NEWBRANCH --mode=sftp
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si standard --config-dir=sites/default/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else drush si standard -y ; fi
+            echo 'Set git'
+            terminus site set-connection-mode --site=<%= appName %> --env=$NEWBRANCH --mode=git
+            # Post build configuration.
+            terminus drush --site=<%= appName %> --env=$NEWBRANCH "cc drush --strict=0"
+            terminus drush --site=<%= appName %> --env=$NEWBRANCH "cr --strict=0"
+            echo "If everything worked, go to http://$NEWBRANCH-<%= appName %>.pantheonsite.io"
