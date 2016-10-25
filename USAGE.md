@@ -37,6 +37,12 @@ vagrant up
 
 Once generated and provisioned your vm; you should prepare your local site.
 
+Generate local settings file:
+
+```bash
+./scripts/local_settings.sh
+```
+
 Prepare the local site:
 
 ```bash
@@ -44,12 +50,6 @@ composer install
 npm install
 node_modules/.bin/aquifer extensions-load
 node_modules/.bin/aquifer build
-```
-
-Generate local settings file:
-
-```bash
-./scripts/local_settings.sh
 ```
 
 Install the local site
