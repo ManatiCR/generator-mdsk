@@ -10,6 +10,11 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
+        - TestDrupal\BehatExtension\Context\PageContext
+        - Devinci\DevinciExtension\Context\DebugContext:
+            asset_dump_path: %paths.base%/tests/behat/assets
+        - Devinci\DevinciExtension\Context\JavascriptContext:
+            maximum_wait: 30
   extensions:
     Behat\MinkExtension:
       files_path: "%paths.base%/tests/sample_content"
@@ -25,9 +30,9 @@ default:
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
       drupal:
-        drupal_root: "/var/www/build"
+        drupal_root: "/var/www/<%= appName %>/build"
       drush:
-        root: "/var/www/build"
+        root: "/var/www/<%= appName %>/build"
       region_map:
         content: "#content"
         footer: "#footer"
@@ -35,6 +40,12 @@ default:
         right header: "#header-right"
         right sidebar: "#column-right"
         tabs: ".tabs"
+    TestDrupal\BehatExtension:
+      default_contexts_map:
+        mink: Drupal\DrupalExtension\Context\MinkContext
+        drupal: Drupal\DrupalExtension\Context\DrupalContext
+        js: Devinci\DevinciExtension\Context\JavascriptContext
+        page: TestDrupal\BehatExtension\Context\PageContext
 circle:
   extensions:
     Behat\MinkExtension:
@@ -49,7 +60,7 @@ circle:
 wercker:
   extensions:
     Behat\MinkExtension:
-      base_url: http://<%= appName %>.dev:8082
+      base_url: http://<%= appName %>.dev
       selenium2: ~
       browser_name: chrome
     Drupal\DrupalExtension:
