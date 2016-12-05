@@ -5,6 +5,22 @@ var yosay = require('yosay');
 var _ = require('lodash');
 
 module.exports = yeoman.Base.extend({
+  constructor: function () {
+    yeoman.Base.apply(this, arguments);
+
+    this.option('humanName', {
+      desc: 'Application human name',
+      type: 'String'
+    });
+    this.option('appName', {
+      desc: 'Application machine name',
+      type: 'String'
+    });
+    this.option('drupalVersion', {
+      desc: 'Target drupal version',
+      type: 'Number'
+    });
+  },
   prompting: function () {
     var done = this.async();
 
@@ -13,21 +29,32 @@ module.exports = yeoman.Base.extend({
       'Welcome to the solid ' + chalk.red('Manati Drupal Starter Kit') + ' generator!'
     ));
 
-    var prompts = [{
-      name: 'humanName',
-      message: 'What\'s your app human name?',
-      default: 'Manati'
-    }, {
-      name: 'appName',
-      message: 'What\'s your app machine name?',
-      default: function (props) {
-        return _.snakeCase(props.humanName);
-      }
-    }, {
-      name: 'version',
-      message: 'Drupal Version?',
-      type: 'list',
-      choices: [
+    var prompts = [];
+
+    if (!this.options.humanName) {
+      prompts.push({
+        name: 'humanName',
+        message: 'What\'s your app human name?',
+        default: 'Manati'
+      });
+    }
+
+    if (!this.options.appName) {
+      prompts.push({
+        name: 'appName',
+        message: 'What\'s your app machine name?',
+        default: function (props) {
+          return _.snakeCase(props.humanName);
+        }
+      });
+    }
+
+    if (!this.options.drupalVersion) {
+      prompts.push({
+        name: 'version',
+        message: 'Drupal Version?',
+        type: 'list',
+        choices: [
         {
           name: '7',
           value: '7'
@@ -37,17 +64,17 @@ module.exports = yeoman.Base.extend({
           value: '8'
         }
       ],
-      default: 7
-    }];
+        default: 7
+      });
+    }
 
     this.prompt(prompts, function (props) {
-      this.props = props;
+      this.props = {};
       // To access props later use this.props.someOption;
-
-      this.props.humanName = props.humanName;
-      this.props.appName = props.appName;
-      this.props.dashedAppName = props.appName.replace('_', '-');
-      this.props.version = props.version;
+      this.props.humanName = props.humanName ? props.humanName : this.options.humanName;
+      this.props.appName = props.appName ? props.appName : this.options.appName;
+      this.props.dashedAppName = this.props.appName.replace('_', '-');
+      this.props.version = props.version ? props.version : this.options.drupalVersion;
 
       done();
     }.bind(this));
