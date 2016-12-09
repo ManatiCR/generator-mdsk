@@ -10,17 +10,28 @@ build:
         name: Setup Global Stuff
         code: |
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
-            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
             # Drupal settings.
             cp ./wercker/wercker.settings.secret.php ./settings/settings.secret.php
-            # Configure Solr.
-            #cp -R /opt/solr-4.3.1 $HOME/solr
-            #curl http://ftp.drupal.org/files/projects/apachesolr-7.x-1.x-dev.tar.gz | tar -xz
-            #cp -r apachesolr/solr-conf/solr-4.x/* $HOME/solr/example/solr/collection1/conf
-            #cd $HOME/solr/example/; java -jar start.jar >> $HOME/solr.log:
-            # Install and start Selenium.
-            #wget http://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
-            #java -jar selenium-server-standalone-2.48.2.jar:
+            # Install xvfb.
+            sudo apt-get install xvfb -y
+            # Install Chrome.
+            mkdir -p $HOME/google-chrome && cd $HOME/google-chrome && curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i $HOME/google-chrome/google-chrome.deb || sudo apt-get update -y && sudo apt-get install -f -y
+            # Install Chromedriver.
+            wget https://chromedriver.storage.googleapis.com/2.25/chromedriver_linux64.zip
+            unzip chromedriver_linux64.zip
+            sudo ln -s $PWD/chromedriver /usr/bin/chromedriver
+            # Install Java.
+            sudo apt-get install software-properties-common python-software-properties -y
+            sudo add-apt-repository ppa:openjdk-r/ppa -y
+            sudo apt-get update -y
+            sudo apt-get install openjdk-8-jdk -y
+            # Download Selenium.
+            wget http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.0.1.jar
+            # Start Selenium
+            xvfb-run java -jar selenium-server-standalone-3.0.1.jar > /dev/null 2>&1 &
+            # Restore current folder.
+            cd $WERCKER_ROOT
             # Configure Apache.
             cp ./wercker/<%= appName %>.dev.conf /etc/apache2/sites-available/
             a2ensite <%= appName %>.dev
@@ -66,7 +77,7 @@ build:
             # Available updates.
             drush @<%= appName %>.<%= appName %>.dev ups | grep -qi "update available" && (echo 'Updates available FAIL' && exit 1) || (echo 'No updates available PASS' && exit 0)
             # Behat tests.
-            ./vendor/bin/behat -p wercker
+            ./.vendor/bin/behat -p wercker
 deploy:
     steps:
     - script:
