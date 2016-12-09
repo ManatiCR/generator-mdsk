@@ -1,10 +1,39 @@
+services: docker
 language: node_js
 node_js:
   - v5
   - v4
+env:
+  global:
+      DRUSH_BIN: drush
+  matrix:
+    # Defaults - Ubuntu 16.04.
+    - type: defaults
+      distro: ubuntu1604
+      init: /sbin/init
+      run_opts: "--privileged"
+before_install:
+  - 'docker pull kporras07/docker-${distro}-mdsk:latest'
 before_script:
   - npm install -g gulp
-script: npm test
+script:
+  - npm test
+  - 'tmpfile=$(mktemp)'
+  - 'docker run --detach --volume="${PWD}":/root/mdsk:rw ${run_opts} kporras07/docker-${distro}-mdsk:latest "${init}" > "${tmpfile}"'
+  - 'container_id=$(cat ${tmpfile})'
+  - 'docker exec ${container_id} npm install -g yo'
+  - 'docker exec ${container_id} ln -s /root/mdsk ~/.nvm/versions/node/`node -v`/lib/node_modules/'
+  - 'docker exec ${container_id} mkdir $HOME/mdsktest && cd $HOME/mdsktest'
+  - 'docker exec ${container_id} yo mdsk --humanName="mdsktest" --machineName="mdsktest" --drupalVersion=7 --skip-install'
+  - 'docker exec ${container_id} composer install'
+  - 'docker exec ${container_id} npm install'
+  - 'docker exec ${container_id} ./scripts/local_settings.sh'
+  - 'docker exec ${container_id} ./node_modules/.bin/aquifer build'
+  - 'docker exec ${container_id} ansible-galaxy install -r provisioning/requirements.yml --force'
+  - 'docker exec ${container_id} vagrant up'
+  - 'docker exec ${container_id} ./scripts/mdsktest_local_install.sh'
+  - 'docker exec ${container_id} drush @mdsktest.mdsktest.dev status'
+  - 'docker exec ${container_id} ./scripts/local_behat.sh'
 before_deploy:
   - npm install -g gulp
   - npm install gulp
