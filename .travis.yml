@@ -28,7 +28,6 @@ script:
   - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=7 --skip-install'
   - 'composer install'
   - 'npm install'
-  - './scripts/local_settings.sh'
   - './node_modules/.bin/aquifer build'
   - 'docker run --detach --volume="${PWD}":"${MDSK_DIR}":rw ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${tmpfile}"'
   - 'container_id=$(cat ${tmpfile})'
