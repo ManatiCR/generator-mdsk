@@ -25,7 +25,7 @@ script:
   - 'ln -s ${PWD} ~/.nvm/versions/node/`node -v`/lib/node_modules'
   - 'ls ~/.nvm/versions/node/`node -v`/lib/node_modules/'
   - 'mkdir $HOME/mdsktest && cd $HOME/mdsktest'
-  - 'yo mdsk --humanName="mdsktest" --machineName="mdsktest" --drupalVersion=7 --skip-install'
+  - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=7 --skip-install'
   - 'composer install'
   - 'npm install'
   - './scripts/local_settings.sh'
