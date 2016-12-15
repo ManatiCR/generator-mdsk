@@ -8,9 +8,9 @@ env:
       DRUSH_BIN: drush
       MDSK_DIR: /var/www/mdsktest
   matrix:
-    # Defaults - Ubuntu 16.04.
+    # Defaults - Ubuntu 14.04.
     - type: defaults
-      distro: ubuntu1604
+      distro: ubuntu1404
       init: /sbin/init
       run_opts: "--privileged"
 before_install:
