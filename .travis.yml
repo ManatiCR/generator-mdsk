@@ -26,6 +26,7 @@ script:
   - 'ls ~/.nvm/versions/node/`node -v`/lib/node_modules/'
   - 'mkdir $HOME/mdsktest && cd $HOME/mdsktest'
   - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=7 --skip-install'
+  - 'cp $HOME/.nvm/versions/node/`node -v`/lib/node_modules/generator_mdsk/test/config.yml $HOME/mdsktest/'
   - 'composer install'
   - 'composer global require drush/drush:8.x-dev'
   - 'ln -s ~/.composer/vendor/bin/drush /usr/bin/drush'
