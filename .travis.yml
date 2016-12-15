@@ -17,8 +17,8 @@ before_install:
   - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
 before_script:
   - npm install -g gulp yo
-  - apt-cache search php
-  - sudo apt-get install php5.6 php5.6-xml
+  - apt-cache search php-xml
+  - sudo apt-get install php5 php5-cli php5-common php5-curl
 script:
   - 'npm test'
   - 'tmpfile=$(mktemp)'
