@@ -19,6 +19,8 @@ before_script:
   - npm install -g gulp yo
   - apt-cache search php-xml
   - sudo apt-get install php5 php5-cli php5-common php5-curl
+  # Install lint tools.
+  - gem install rubocop
 script:
   - 'npm test'
   - 'tmpfile=$(mktemp)'
@@ -35,6 +37,8 @@ script:
   - 'container_id=$(cat ${tmpfile})'
   - 'docker exec ${container_id} ansible-galaxy install -r "$MDSK_DIR"/provisioning/requirements.yml --force'
   - 'docker exec ${container_id} ansible-playbook "$MDSK_DIR"/provisioning/playbook.yml'
+  # Vagrantfile syntax check.
+  - 'rubocop ./Vagrantfile --except LineLength,Eval,MutableConstant,BlockLength'
 before_deploy:
   - npm install -g gulp
   - npm install gulp
