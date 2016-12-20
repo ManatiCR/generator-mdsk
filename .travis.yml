@@ -40,7 +40,7 @@ script:
   - 'docker run --detach --volume="${PWD}":"${MDSK_DIR}":rw ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${tmpfile}"'
   - 'container_id=$(cat ${tmpfile})'
   - 'docker exec ${container_id} ansible-galaxy install -r "$MDSK_DIR"/provisioning/requirements.yml --force'
-  - 'docker exec ${container_id} ansible-playbook "$MDSK_DIR"/provisioning/playbook.yml'
+  - 'docker exec ${container_id} ansible-playbook "$MDSK_DIR"/provisioning/test.yml'
   # Vagrantfile syntax check.
   - 'rubocop ./Vagrantfile --except LineLength,Eval,MutableConstant,BlockLength'
 before_deploy:
