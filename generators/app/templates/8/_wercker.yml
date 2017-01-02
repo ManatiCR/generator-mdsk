@@ -71,7 +71,6 @@ build:
             # ESLint.
             ./node_modules/.bin/gulp eslint
             # Overridden features.
-            drush @<%= appName %>.<%= appName %>.dev fl | grep -qi 'overridden' && (echo 'Overridden Features FAIL' && exit 1) || (echo 'Overridden Features PASS' && exit 0)
             # Available updates.
             drush @<%= appName %>.<%= appName %>.dev ups | grep -qi "update available" && (echo 'Updates available FAIL' && exit 1) || (echo 'No updates available PASS' && exit 0)
             # Behat tests.
