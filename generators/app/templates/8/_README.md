@@ -32,16 +32,23 @@ In this generator we include Wraith for visual regression testing so you'll need
 * Imagemagick
 * PhantomJS
 
-To install those you can run:
+To install those in Linux you can run:
 
 ```bash
 sudo apt-get install libicu-dev imagemagick rake phantomjs
 ```
 
+To install them in Mac:
+
+```bash
+brew install imagemagick
+brew install phantomjs # or `brew install casperjs` or `brew install slimerjs`
+```
+
 And you can also install casperjs:
 
 ```bash
-sudo npm install -g casperjs
+npm install -g casperjs
 ```
 
 To install wraith you should run:
