@@ -38,6 +38,8 @@ script:
   - 'source ~/.bashrc'
   - 'cat ~/.bashrc'
   - 'echo $PATH'
+  - 'ls $HOME/.composer/vendor/bin'
+  - 'ls $HOME/composer/vendor/bin'
   - 'whereis drush'
   - 'which drush'
   - 'npm install'
