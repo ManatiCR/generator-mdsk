@@ -1,10 +1,50 @@
+services: docker
 language: node_js
 node_js:
   - v5
   - v4
+env:
+  global:
+      DRUSH_BIN: drush
+      MDSK_DIR: /var/www/mdsktest
+  matrix:
+    # Defaults - Ubuntu 14.04.
+    - type: defaults
+      distro: ubuntu1404
+      init: /sbin/init
+      run_opts: "--privileged"
+before_install:
+  - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
 before_script:
-  - npm install -g gulp
-script: npm test
+  - echo $PATH
+  - npm install -g gulp yo
+  - apt-cache search php-xml
+  - sudo apt-get install php5 php5-cli php5-common php5-curl
+  # Install lint tools.
+  - gem install rubocop
+script:
+  - 'npm test'
+  - 'ln -s ${PWD} ~/.nvm/versions/node/`node -v`/lib/node_modules'
+  - 'mkdir $HOME/mdsktest && cd $HOME/mdsktest'
+  - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=7 --skip-install'
+  - 'mkdir -p provisioning/files/sbin'
+  - 'cp $TRAVIS_BUILD_DIR/test/initctl_faker $HOME/mdsktest/provisioning/files/sbin/'
+  - 'cp $TRAVIS_BUILD_DIR/test/config.yml $HOME/mdsktest/'
+  - 'cp $TRAVIS_BUILD_DIR/test/initctlfaker.yml $HOME/mdsktest/provisioning/tasks/'
+  - 'cp $TRAVIS_BUILD_DIR/test/test.yml $HOME/mdsktest/provisioning/'
+  - 'composer install'
+  - 'composer global require drush/drush:8.x-dev'
+  - echo 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"' >> ~/.bashrc
+  - 'source ~/.bashrc'
+  - 'npm install'
+  - './node_modules/.bin/aquifer build'
+  - 'tmpfile=$(mktemp)'
+  - 'docker run --detach --volume="${PWD}":"${MDSK_DIR}":rw ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${tmpfile}"'
+  - 'container_id=$(cat ${tmpfile})'
+  - 'docker exec ${container_id} ansible-galaxy install -r "$MDSK_DIR"/provisioning/requirements.yml --force'
+  - 'docker exec ${container_id} ansible-playbook "$MDSK_DIR"/provisioning/test.yml'
+  # Vagrantfile syntax check.
+  - 'rubocop ./Vagrantfile --except LineLength,Eval,MutableConstant,BlockLength'
 before_deploy:
   - npm install -g gulp
   - npm install gulp

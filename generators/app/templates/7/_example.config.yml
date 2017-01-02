@@ -194,7 +194,7 @@ firewall_log_dropped_packets: false
 php_version: "7.0"
 php_packages:
   - php7.0
-  - php7.0-apcu
+  - php-apcu
   - php7.0-mcrypt
   - php7.0-cli
   - php7.0-common
