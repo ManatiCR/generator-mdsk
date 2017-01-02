@@ -35,7 +35,7 @@ script:
   - 'composer install'
   - 'composer global require drush/drush:8.x-dev'
   - echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
-  - 'source ~/.bash'
+  - 'source ~/.bashrc'
   - 'whereis drush'
   - 'which drush'
   - 'npm install'
