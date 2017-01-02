@@ -67,7 +67,6 @@ build:
             source $HOME/.rvm/scripts/rvm
             rvm install 2.4
             rvm use 2.4
-            ruby -v
             sudo apt-get install libicu-dev imagemagick rake phantomjs
             sudo npm install -g casperjs
             gem install wraith
