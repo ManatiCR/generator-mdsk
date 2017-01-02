@@ -8,11 +8,122 @@
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Mink\Exception;
+use Behat\Gherkin\Node\TableNode;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext extends RawDrupalContext {
+
+  private $language;
+
+  /**
+   * Construct.
+   */
+  public function __construct() {
+  }
+
+  /**
+   * Set internal language for future steps.
+   *
+   * @Given I am in :lang language
+   */
+  public function setLanguage($lang) {
+    $languages = language_list();
+    if (isset($languages[$lang])) {
+      $this->language = $lang;
+    }
+  }
+
+  /**
+   * Log-in the current user.
+   */
+  public function login() {
+    // Check if logged in.
+    if ($this->loggedIn()) {
+      $this->logout();
+    }
+
+    if (!$this->user) {
+      throw new \Exception('Tried to login without a user.');
+    }
+
+    $this->getSession()->visit($this->locatePath('/' . $this->language . '/user'));
+    $element = $this->getSession()->getPage();
+    $element->fillField($this->getDrupalText('username_field'), $this->user->name);
+    $element->fillField($this->getDrupalText('password_field'), $this->user->pass);
+    $submit = $element->findButton($this->getDrupalText('log_in'));
+    if (empty($submit)) {
+      throw new \Exception(sprintf("No submit button at %s", $this->getSession()->getCurrentUrl()));
+    }
+
+    // Log in.
+    $submit->click();
+
+    if (!$this->loggedIn()) {
+      throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->user->name, $this->user->role));
+    }
+  }
+
+  /**
+   * Creates and authenticates a user with the given role(s) and given fields.
+   *
+   * | field_user_name     | John  |
+   * | field_user_surname  | Smith |
+   * | ...                 | ...   |
+   * This is pretty much a copy of "@Given I am logged in as a user
+   * with the :role role(s) and I have the following fields:".
+   *
+   * @Given I am logged in as a user with the :role role(s) and the following fields:
+   */
+  public function assertAuthenticatedByRoleWithGivenFields($role, TableNode $fields) {
+    // Check if a user with this role is already logged in.
+    if (!$this->loggedInWithRole($role)) {
+      // Create user (and project).
+      $user = (object) array(
+        'name' => $this->getRandom()->name(8),
+        'pass' => $this->getRandom()->name(16),
+        'role' => $role,
+      );
+      $user->mail = "{$user->name}@example.com";
+
+      // Assign fields to user before creation.
+      foreach ($fields->getRowsHash() as $field => $value) {
+        $user->{$field} = $value;
+      }
+
+      $this->userCreate($user);
+
+      $roles = explode(',', $role);
+      $roles = array_map('trim', $roles);
+      foreach ($roles as $role) {
+        if (!in_array(strtolower($role), array('authenticated', 'authenticated user'))) {
+          // Only add roles other than 'authenticated user'.
+          $this->getDriver()->userAddRole($user, $role);
+        }
+      }
+
+      // Login.
+      $this->login();
+    }
+  }
+
+  /**
+   * Returns a specific Drupal text value.
+   *
+   * @param string $name
+   *   Text value name, such as 'log_out', which corresponds to the default 'Log
+   *   out' link text.
+   *
+   * @return string
+   *   Requested text.
+   */
+  public function getDrupalText($name) {
+    $text = parent::getDrupalText($name);
+    $text = locale($text, '', $this->language);
+    return $text;
+  }
+
 
   /**
    * Reload Solr Core.
@@ -246,6 +357,21 @@ class FeatureContext extends RawDrupalContext {
     $saved = $this->nodeCreate($node);
     // Set internal page on the new node.
     $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
+  }
+
+  /**
+   * Assert selector count in given region.
+   *
+   * @Then I should see exactly :number :selector in region :region
+   */
+  public function iShouldSeeExactlyInSelectorInRegion($number, $selector, $region) {
+    $session = $this->getSession();
+    $region_obj = $session->getPage()->find('region', $region);
+    $elements = $region_obj->findAll('css', $selector);
+    $count = count($elements);
+    if ($count != $number) {
+      throw new \Exception(sprintf('The selector "%s" was found %d times in the %s region on the page %s', $selector, $count, $region, $this->getSession()->getCurrentUrl()));
+    }
   }
 
 }
