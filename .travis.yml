@@ -34,7 +34,8 @@ script:
   - 'cp $TRAVIS_BUILD_DIR/test/test.yml $HOME/mdsktest/provisioning/'
   - 'composer install'
   - 'composer global require drush/drush:8.x-dev'
-  - echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' > ~/.bashrc
+  - echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+  - 'source ~/.bash'
   - 'whereis drush'
   - 'which drush'
   - 'npm install'
