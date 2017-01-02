@@ -10,7 +10,6 @@ build:
         name: Setup Global Stuff
         code: |
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
-            ln -s ~/.composer/vendor/bin/drush /usr/bin/drush
             # Drupal settings.
             cp ./wercker/wercker.settings.secret.php ./settings/settings.secret.php
             # Install xvfb.
