@@ -245,6 +245,11 @@ module.exports = yeoman.Base.extend({
         this.templatePath(this.props.version + '/' + 'themes/custom/gitkeep'),
         this.destinationPath('themes/custom/.gitkeep')
       );
+      this.fs.copyTpl(
+        this.templatePath(this.props.version + '/' + 'wraith'),
+        this.destinationPath('wraith'),
+        this.props
+      );
       if (this.props.version == 8) {
         this.fs.copyTpl(
           this.templatePath(this.props.version + '/' + 'files/config/sync'),
@@ -256,6 +261,7 @@ module.exports = yeoman.Base.extend({
     renameFilesAndFolders: function () {
       this.fs.move('circle/_manati', 'circle/' + this.props.appName);
       this.fs.move('circle/_manati.aliases.drushrc.php', 'circle/' + this.props.appName+'.aliases.drushrc.php');
+      this.fs.move('wraith/configs/_capture.yaml', 'wraith/configs/capture.yaml');
 
       this.fs.move('wercker/_manati.dev.conf', 'wercker/' + this.props.appName+'.dev.conf');
       this.fs.move('wercker/_manati.aliases.drushrc.php', 'wercker/' + this.props.appName + '.aliases.drushrc.php');
