@@ -18,6 +18,11 @@
         "method": "symlink",
         "conflict": "overwrite"
       },
+      "profiles": {
+        "destination": "profiles/custom",
+        "method": "symlink",
+        "conflict": "overwrite"
+      },
       "themes/custom": {
         "destination": "themes/custom",
         "method": "symlink",
@@ -58,7 +63,7 @@
   },
   "extensions": {
     "aquifer-git": {
-      "source": "aquifer-git",
+      "source": "https://github.com/kporras07/aquifer-git.git#f2c88ac",
       "remote": "",
       "branch": "master",
       "name": "CI Bot",
