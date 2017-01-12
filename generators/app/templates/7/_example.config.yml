@@ -203,6 +203,7 @@ php_packages:
   - php7.0-fpm
   - php7.0-gd
   - php7.0-sqlite3
+  - php7.0-xml
   - php-pear
   - libpcre3-dev
 php_conf_paths:
