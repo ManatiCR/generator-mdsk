@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
+var uuidV4 = require('uuid/v4');
 
 module.exports = yeoman.Base.extend({
   constructor: function () {
@@ -75,6 +76,10 @@ module.exports = yeoman.Base.extend({
       this.props.appName = props.appName ? props.appName : this.options.appName;
       this.props.dashedAppName = this.props.appName.replace('_', '-');
       this.props.version = props.version ? props.version : this.options.drupalVersion;
+
+      if (this.props.version == '8') {
+        this.props.siteUuid = uuidV4();
+      }
 
       done();
     }.bind(this));
