@@ -45,7 +45,6 @@ build:
             chown -R root:www-data ./files
             ./node_modules/.bin/aquifer build
             chmod 777 -R ./build/sites/default/files
-            ./node_modules/.bin/aquifer extensions-load
             chown -R www-data:www-data ./build/sites/default/files
             # Set alias.
             drush site-set @<%= appName %>.<%= dashedAppName %>.dev
@@ -56,11 +55,10 @@ build:
             # Create Drupal DB
             mysql -u root -pAdmin2015 -e "create database drupal;"
             # Install Drupal and disable sendmail.
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" && drush si standard --config-dir=sites/default/files/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si standard -y ; fi
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" && drush si <%= appName %> -y ; drush config-set "system.site" uuid $SITE_UUID -y ; drush cim -y ; else /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si <%= appName %> -y ; fi
             # Post build configuration.
             drush cc drush
             drush cr
-
             # Install dependencies for running visual regression tests with Wraith.
             \curl -sSL https://get.rvm.io | bash -s stable
             \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
@@ -103,6 +101,10 @@ deploy:
             ssh-add /tmp/tmp.*
             composer install --prefer-source --no-interaction
             npm install
+            echo 'Host *' >> /root/.ssh/config
+            echo '   StrictHostKeyChecking no' >> /root/.ssh/config
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
     - script:
         name: Install Pantheon CLI
         code: |
@@ -111,10 +113,11 @@ deploy:
     - script:
         name: Deploy code to pantheon
         code: |
-            npm install -g aquifer aquifer-git
+            echo 'Load aquifer extensions...'
+            ./node_modules/.bin/aquifer extensions-load
             echo 'Ensure we are on git mode'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
-            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch"
+            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" || true
     - script:
         name: Deploy steps to pantheon dev
         code: |
@@ -126,7 +129,7 @@ deploy:
             drush site-set @pantheon.<%= dashedAppName %>.dev
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si standard --config-dir=sites/default/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else drush si standard -y ; fi
+            if [ -f ./files/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y |; drush cim -y ; else drush si <%= appName %> -y ; fi
             echo 'Set git'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             # Post build configuration.
@@ -224,22 +227,26 @@ deploy-multidev:
             ssh-add /tmp/tmp.*
             npm install
             composer global require drush/drush:7.1.* --no-interaction
+            echo 'Host *' >> /root/.ssh/config
+            echo '   StrictHostKeyChecking no' >> /root/.ssh/config
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
         name: Deploy code to pantheon
         code: |
-            npm install -g aquifer aquifer-git
+            echo 'Load aquifer extensions...'
+            ./node_modules/.bin/aquifer extensions-load
             NEWBRANCH=$WERCKER_GIT_BRANCH
             LENGTH=${#NEWBRANCH}
             if [ LENGTH > 10 ] ; then NEWBRANCH=${NEWBRANCH:8:6} ; fi
             NEWBRANCH=${NEWBRANCH//-/}
             NEWBRANCH=${NEWBRANCH,,}
-            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" -b $NEWBRANCH
+            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" -b $NEWBRANCH || true
     - script:
         name: Deploy steps to pantheon dev
         code: |
@@ -252,7 +259,7 @@ deploy-multidev:
             drush site-set @pantheon.<%= dashedAppName %>.$NEWBRANCH
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= appName %> --env=$NEWBRANCH --mode=sftp
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si standard --config-dir=sites/default/config/sync -y || drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();' || drush cim -y ; else drush si standard -y ; fi
+            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si <%= appName %> ; drush config-set "system.site" uuid "$SITE_UUID" -y ; drush cim -y ; else drush si <%= appName %> -y ; fi
             echo 'Set git'
             terminus site set-connection-mode --site=<%= appName %> --env=$NEWBRANCH --mode=git
             # Post build configuration.

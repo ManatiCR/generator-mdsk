@@ -111,6 +111,9 @@ Once vagrant has finished provisioning and you have prepared the site finally:
 ./scripts/drupalvm_solr.sh
 ```
 
+## Site UUID.
+Site uuid can be found in the installation script. You should create a variable named `SITE_UUID` in wercker and set it to that value so that wercker builds work as expected.
+
 ## Structure
 
 **<%= humanName %> Distribution**
