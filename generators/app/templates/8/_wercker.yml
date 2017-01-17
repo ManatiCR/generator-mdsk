@@ -117,7 +117,7 @@ deploy:
             ./node_modules/.bin/aquifer extensions-load
             echo 'Ensure we are on git mode'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
-            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" || true
+            ./node_modules/.bin/aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" || true
     - script:
         name: Deploy steps to pantheon dev
         code: |
@@ -129,7 +129,7 @@ deploy:
             drush site-set @pantheon.<%= dashedAppName %>.dev
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
-            if [ -f ./files/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y |; drush cim -y ; else drush si <%= appName %> -y ; fi
+            if [ -f ./files/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y ; drush cim -y ; else drush si <%= appName %> -y ; fi
             echo 'Set git'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             # Post build configuration.
