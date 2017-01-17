@@ -225,8 +225,8 @@ deploy-multidev:
         code: |
             eval `ssh-agent`
             ssh-add /tmp/tmp.*
+            composer install --prefer-source --no-interaction
             npm install
-            composer global require drush/drush:7.1.* --no-interaction
             echo 'Host *' >> /root/.ssh/config
             echo '   StrictHostKeyChecking no' >> /root/.ssh/config
             git config --global user.email "you@example.com"
