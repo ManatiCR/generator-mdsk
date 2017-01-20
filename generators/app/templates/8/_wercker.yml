@@ -65,8 +65,8 @@ build:
             source /usr/local/rvm/scripts/rvm
             rvm install 2.4
             rvm use 2.4
-            sudo apt-get install libicu-dev imagemagick rake phantomjs -y
-            sudo npm install -g casperjs
+            sudo apt-get install libicu-dev imagemagick rake -y
+            sudo npm install -g casperjs phantomjs
             gem install wraith
 
     - script:
@@ -84,7 +84,9 @@ build:
             # Behat tests.
             ./.vendor/bin/behat -p wercker
             # Visual regression tests.
-            # wraith capture capture
+            # cd wraith && wraith capture capture
+            # Store wraith shots in wercker artifacts folder.
+            # cp -r shots $WERCKER_REPORT_ARTIFACTS_DIR/
 deploy:
     steps:
     - script:
