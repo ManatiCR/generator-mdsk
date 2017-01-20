@@ -238,9 +238,10 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('scripts'),
         this.props
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + 'settings'),
-        this.destinationPath('settings')
+        this.destinationPath('settings'),
+        this.props
       );
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'tests'),

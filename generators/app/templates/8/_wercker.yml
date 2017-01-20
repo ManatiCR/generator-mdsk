@@ -62,10 +62,10 @@ build:
             # Install dependencies for running visual regression tests with Wraith.
             \curl -sSL https://get.rvm.io | bash -s stable
             \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
-            source $HOME/.rvm/scripts/rvm
+            source /usr/local/rvm/scripts/rvm
             rvm install 2.4
             rvm use 2.4
-            sudo apt-get install libicu-dev imagemagick rake phantomjs
+            sudo apt-get install libicu-dev imagemagick rake phantomjs -y
             sudo npm install -g casperjs
             gem install wraith
 
@@ -117,7 +117,7 @@ deploy:
             ./node_modules/.bin/aquifer extensions-load
             echo 'Ensure we are on git mode'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
-            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" || true
+            ./node_modules/.bin/aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" || true
     - script:
         name: Deploy steps to pantheon dev
         code: |
@@ -129,7 +129,7 @@ deploy:
             drush site-set @pantheon.<%= dashedAppName %>.dev
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
-            if [ -f ./files/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y |; drush cim -y ; else drush si <%= appName %> -y ; fi
+            if [ -f ./files/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y ; drush cim -y ; else drush si <%= appName %> -y ; fi
             echo 'Set git'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             # Post build configuration.
@@ -225,8 +225,8 @@ deploy-multidev:
         code: |
             eval `ssh-agent`
             ssh-add /tmp/tmp.*
+            composer install --prefer-source --no-interaction
             npm install
-            composer global require drush/drush:7.1.* --no-interaction
             echo 'Host *' >> /root/.ssh/config
             echo '   StrictHostKeyChecking no' >> /root/.ssh/config
             git config --global user.email "you@example.com"

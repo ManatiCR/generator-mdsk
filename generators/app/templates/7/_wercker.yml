@@ -66,10 +66,10 @@ build:
             # Install dependencies for running visual regression tests with Wraith.
             \curl -sSL https://get.rvm.io | bash -s stable
             \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
-            source $HOME/.rvm/scripts/rvm
+            source /usr/local/rvm/scripts/rvm
             rvm install 2.4
             rvm use 2.4
-            sudo apt-get install libicu-dev imagemagick rake phantomjs
+            sudo apt-get install libicu-dev imagemagick rake phantomjs -y
             sudo npm install -g casperjs
             gem install wraith
 
