@@ -100,7 +100,6 @@ deploy:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            ssh-add /tmp/tmp.*
             composer install --prefer-source --no-interaction
             npm install
             echo 'Host *' >> /root/.ssh/config
@@ -150,7 +149,6 @@ deploy-test:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            ssh-add /tmp/tmp.*
             composer install --prefer-source --no-interaction
             npm install
     - script:
@@ -188,7 +186,6 @@ deploy-live:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            ssh-add /tmp/tmp.*
             composer install --prefer-source --no-interaction
             npm install
     - script:
@@ -226,7 +223,6 @@ deploy-multidev:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            ssh-add /tmp/tmp.*
             composer install --prefer-source --no-interaction
             npm install
             echo 'Host *' >> /root/.ssh/config
