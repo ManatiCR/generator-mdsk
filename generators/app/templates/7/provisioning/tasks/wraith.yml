@@ -1,0 +1,27 @@
+---
+- name: Install required apt pakages for wraith.
+  apt:  "name={{ item }} state=installed"
+  with_items:
+    - "ibicu-dev"
+    - "imagemagick"
+    - "rake"
+
+- name: Install casperjs package for wraith.
+  npm:
+    name: casperjs
+    global: yes
+
+- name: Install phantomjs for wraith.
+  npm:
+    name: phantomjs
+    global: yes
+
+- name: Install casperjs package for wraith.
+  npm:
+    name: casperjs
+    global: yes
+
+- name: Install wraith Ruby gem
+    gem:
+      name: wraith
+      state: present
