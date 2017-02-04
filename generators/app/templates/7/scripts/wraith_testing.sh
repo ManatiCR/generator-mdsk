@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-  vagrant ssh -c "cd /var/www/<%=appName %>/wraith/configs; wraith capture capture "
+  vagrant ssh -c "cd .gem/ruby/2.3.0/gems/wraith-4.0.1/bin; ./wraith capture /var/www/<%=appName %>/wraith/configs/capture.yaml"
