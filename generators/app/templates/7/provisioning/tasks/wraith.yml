@@ -15,8 +15,3 @@
   npm:
     name: phantomjs
     global: yes
-
-- name: Install wraith Ruby gem
-  gem:
-    name: wraith
-    state: present

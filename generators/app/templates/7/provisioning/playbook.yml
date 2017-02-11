@@ -73,9 +73,6 @@
     - { role: geerlingguy.solr, when: '"solr" in installed_extras' }
     - { role: geerlingguy.varnish, when: '"varnish" in installed_extras' }
 
-    # MDSK specific roles.
-    - altermn.rvm
-
     # Roles for security and stability on production.
     - { role: geerlingguy.security, when: extra_security_enabled }
 
