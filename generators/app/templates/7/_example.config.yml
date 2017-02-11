@@ -150,9 +150,9 @@ installed_extras:
   # - drupalconsole
   - mailhog
   - memcached
-  # - nodejs
+  - nodejs
   - pimpmylog
-  # - ruby
+  - ruby
   - selenium
   - solr
   - varnish
@@ -168,7 +168,9 @@ nodejs_version: "0.12"
 nodejs_npm_global_packages: []
 
 # `ruby` must be in installed_extras for this to work.
-ruby_install_gems: []
+ruby_install_gems_user: "vagrant"
+ruby_install_gems:
+  - wraith
 
 # You can configure almost anything else on the server in the rest of this file.
 extra_security_enabled: false
