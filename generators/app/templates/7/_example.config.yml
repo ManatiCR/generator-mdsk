@@ -164,7 +164,7 @@ extra_packages:
   - unzip
 
 # `nodejs` must be in installed_extras for this to work.
-nodejs_version: "0.12"
+nodejs_version: "4.x"
 nodejs_npm_global_packages: []
 
 # `ruby` must be in installed_extras for this to work.
