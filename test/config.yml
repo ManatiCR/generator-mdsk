@@ -4,3 +4,6 @@ composer_home_path: "/{{ drupalvm_user }}/.composer"
 
 # Don't run the 'disable ufw firewall' task in tests.
 drupalvm_disable_ufw_firewall: false
+
+#Set the user to install the ruby gems
+ruby_install_gems_user: root

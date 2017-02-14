@@ -6,9 +6,6 @@
     - vars/main.yml
     - ../default.config.yml
 
-  vars:
-    ruby_install_gems_user: root
-
   pre_tasks:
     - name: Define config_dir.
       set_fact:
