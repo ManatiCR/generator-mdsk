@@ -278,6 +278,7 @@ module.exports = yeoman.Base.extend({
 
       this.fs.move('scripts/_manati_local_features_test.sh', 'scripts/' + this.props.appName + '_local_features_test.sh');
       this.fs.move('scripts/_manati_local_install.sh', 'scripts/' + this.props.appName + '_local_install.sh');
+      this.fs.move('scripts/_wraith_testing.sh', 'scripts/' + this.props.appName + '_wraith_testing.sh');
 
       if (this.props.version == 7) {
         this.fs.move('profiles/' + this.props.appName + '/_manati.info', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info');
