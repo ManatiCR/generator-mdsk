@@ -1,0 +1,24 @@
+---
+- name: Install required apt pakages for wraith.
+  apt:  "name={{ item }} state=installed"
+  with_items:
+    - "libicu-dev"
+    - "imagemagick"
+    - "rake"
+
+- name: Install casperjs package for wraith.
+  npm:
+    name: casperjs
+    global: yes
+
+- name: Install phantomjs for wraith.
+  npm:
+    name: phantomjs
+    global: yes
+    
+- name: Add Ruby gems to the Path.
+  lineinfile:
+    dest: /home/vagrant/.bash_profile
+    create: yes
+    line: 'export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"'
+    owner: vagrant

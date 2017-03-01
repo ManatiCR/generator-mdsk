@@ -26,43 +26,16 @@ vagrant plugin install vagrant-auto_network
 ```
 
 ### Wraith
-In this generator we include Wraith for visual regression testing so you'll need the following in order to be able to use it:
+In this generator we include Wraith for visual regression testing, to use it go to `wraith/configs/capture.yaml` and change the domains urls, the paths you want to test and the breakpoints if needed, then go back to the root path of your project and run:
 
-* Ruby (it has been tested with Ruby 2.4).
-* Imagemagick
-* PhantomJS
-
-To install those in Linux you can run:
-
-```bash
-sudo apt-get install libicu-dev imagemagick rake -y
 ```
-
-To install them in Mac:
-
-```bash
-brew install imagemagick
-brew install phantomjs # or `brew install casperjs` or `brew install slimerjs`
+./scripts/<%= appName %>_wraith_testing.sh
 ```
+Once finished the execution of the script go to:
 
-And you can also install casperjs:
-
-```bash
-npm install -g casperjs phantomjs
 ```
-
-To install wraith you should run:
-
-```bash
-gem install wraith
+wraith/shots
 ```
-
-Then go to wraith/configs/capture.yaml and change the domains urls, the paths you want to test and the breakpoints if needed, then run:
-
-```bash
-wraith capture capture
-```
-
 And that's it, now you can make sure everything looks as expected just by opening the generated gallery in your browser.
 
 

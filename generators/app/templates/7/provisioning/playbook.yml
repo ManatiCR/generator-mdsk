@@ -114,6 +114,9 @@
     - include: tasks/dashboard.yml
       when: dashboard_install_dir is defined and dashboard_install_dir != ''
 
+     # MDSK specific.
+    - include: tasks/wraith.yml
+
     - name: Run configured post-provision shell scripts.
       script: "{{ item }}"
       with_items: "{{ post_provision_scripts|default([]) }}"
