@@ -6,6 +6,6 @@
 
 $aliases['<%= dashedAppName %>.dev'] = array(
   'uri' => '<%= dashedAppName %>.dev',
-  'root' => '/pipeline/source/build',
+  'root' => '/pipeline/source/web',
 );
 

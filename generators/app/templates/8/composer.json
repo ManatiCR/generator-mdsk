@@ -1,18 +1,18 @@
 {
   "minimum-stability": "dev",
-  "config": {
-    "vendor-dir": ".vendor"
-  },
-  "require": {
-    "wikimedia/composer-merge-plugin": "dev-master"
-  },
-  "extra": {
-    "merge-plugin": {
-      "include": [
-        "composer.custom.json"
-      ],
-      "replace": false
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
     }
+  ],
+  "require": {
+    "wikimedia/composer-merge-plugin": "dev-master",
+    "kporras07/composer-symlinks": "dev-master",
+    "composer/installers": "^1.2",
+    "drupal-composer/drupal-scaffold": "^2.2",
+    "cweagans/composer-patches": "~1.0"
   },
   "require-dev": {
     "testdrupal/behatextension": "dev-master",
@@ -20,5 +20,68 @@
     "squizlabs/php_codesniffer": "2.5.1",
     "drupal/coder": "8.2.5",
     "behat/behat": "3.0.15"
+  },
+  "conflict": {
+    "drupal/drupal": "*"
+  },
+  "autoload": {
+    "classmap": [
+      "composer-scripts/composer/ScriptHandler.php"
+    ]
+  },
+  "scripts": {
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "pre-install-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion",
+      "DrupalProject\\composer\\ScriptHandler::cleanBuild"
+    ],
+    "pre-update-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion",
+      "DrupalProject\\composer\\ScriptHandler::cleanBuild"
+    ],
+    "post-install-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+    ],
+    "post-update-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+    ]
+  },
+  "extra": {
+    "installer-paths": {
+      "web/core": ["type:drupal-core"],
+      "web/libraries/{$name}": ["type:drupal-library"],
+      "web/modules/contrib/{$name}": ["type:drupal-module"],
+      "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+      "web/themes/contrib/{$name}": ["type:drupal-theme"],
+      "drush/contrib/{$name}": ["type:drupal-drush"]
+    },
+    "symlinks": {
+      "root/.htaccess": "web/.htaccess",
+      "root/.gitignore": "web/.gitignore",
+      "settings/settings.php": "web/sites/default/settings.php",
+      "settings/settings.local.php": "web/sites/default/settings.local.php",
+      "settings/settings.secret.php": "web/sites/default/settings.secret.php",
+      "settings/services.yml": "web/sites/default/services.yml",
+      "files": "web/sites/default/files",
+      "config": "web/sites/default/config",
+      "modules/custom": "web/modules/custom",
+      "themes/custom": "web/themes/custom",
+      "profiles": "web/profiles/custom"
+    },
+    "merge-plugin": {
+      "include": [
+        "composer.drupal.json"
+      ],
+      "replace": false
+    },
+    "drupal-scaffold": {
+      "source": "https://raw.githubusercontent.com/pantheon-systems/drops-8/{version}/{path}",
+      "includes": [
+        "sites/default/settings.pantheon.php"
+      ]
+    },
+    "patches-file": "composer.drupal.patches.json"
   }
 }

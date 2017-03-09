@@ -6,7 +6,8 @@
 
 * VirtualBox: 5.x
 * Vagrant: 1.7.x
-* Ansible (optional, but recommended): 1.9.x
+* Ansible (optional, but recommended): >= 2.2.1.0
+* [Ahoy] (https://github.com/ahoy-cli/ahoy/releases) (2.0.0-beta1) (Only for Deploy)
 
 ### Mac
 
@@ -72,8 +73,7 @@ npm install
 ```
 
 ```
-node_modules/.bin/aquifer extensions-load
-node_modules/.bin/aquifer build
+npm run build-site
 ```
 
 ## Finally
@@ -93,7 +93,7 @@ Site uuid can be found in the installation script. You should create a variable 
 
 * `.gitignore`
 * `/artifacts/` - Deployable build artifacts.
-* `/build/` - Build working directory.
+* `/web/` - Build working directory.
 * `/docs` - Documentation for the distribution.
 * `/files/` - User files.
 * `/gulp-tasks` - Individual Gulp tasks.
@@ -103,7 +103,6 @@ Site uuid can be found in the installation script. You should create a variable 
 * `/provisioning` - Drupal VM Ansible playbooks.
 * `/scripts` - Utilities.
 * `/settings/settings.php` - Drupal common settings.
-* `aquifer.json` - [Aquifer](https://github.com/aquifer/aquifer) build system configuration.
 * `composer.json` - [Composer](https://getcomposer.org) PHP dependency manager configuration.
 * `composer.lock` - locks Composer to specific versions.
 * `config.yml` - Drupal VM.
