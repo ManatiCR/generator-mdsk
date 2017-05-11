@@ -25,19 +25,6 @@ vagrant plugin install vagrant-hostsupdater
 vagrant plugin install vagrant-auto_network
 ```
 
-### Wraith
-In this generator we include Wraith for visual regression testing, to use it go to `wraith/configs/capture.yaml` and change the domains urls, the paths you want to test and the breakpoints if needed, then go back to the root path of your project and run:
-
-```
-./scripts/<%= appName %>_wraith_testing.sh
-```
-Once finished the execution of the script go to:
-
-```
-wraith/shots
-```
-And that's it, now you can make sure everything looks as expected just by opening the generated gallery in your browser.
-
 ## Getting started
 
 ### Prepare the local site:
