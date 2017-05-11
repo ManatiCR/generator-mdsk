@@ -78,10 +78,6 @@ build:
             drush @<%= appName %>.<%= appName %>.dev ups | grep -qi "update available" && (echo 'Updates available FAIL' && exit 1) || (echo 'No updates available PASS' && exit 0)
             # Behat tests.
             ./.vendor/bin/behat -p wercker
-            # Visual regression tests.
-            # cd wraith && wraith capture capture
-            # Store wraith shots in wercker artifacts folder.
-            # cp -r shots $WERCKER_REPORT_ARTIFACTS_DIR/
 deploy:
     steps:
     - script:
