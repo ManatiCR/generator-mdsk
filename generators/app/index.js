@@ -139,6 +139,11 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('README.md'),
         this.props
       );
+      this.fs.copyTpl(
+        this.templatePath(this.props.version + '/' + '_backstop.json'),
+        this.destinationPath('backstop.json'),
+        this.props
+      );
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'Vagrantfile'),
         this.destinationPath('Vagrantfile')
@@ -246,6 +251,11 @@ module.exports = yeoman.Base.extend({
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'tests'),
         this.destinationPath('tests')
+      );
+      this.fs.copyTpl(
+        this.templatePath(this.props.version + '/' + 'backstop_data'),
+        this.destinationPath('backstop_data'),
+        this.props
       );
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'themes/custom/gitkeep'),
