@@ -45,6 +45,3 @@ docs/*.pdf
 # Drupal VM
 default.config.yml
 .vagrant
-
-# Wraith shots.
-wraith/shots
