@@ -59,12 +59,28 @@ Prepare the site:
 
 * `./scripts/<%= appName %>_local_install.sh`
 
+## Backstop JS
+
+This site provides this tool for visual regression testing, use it check if your changes affect your site styles or structure.
+
+configuration file: `backstop.json`
+
+this file contains all the configuration for our viewports, scenarios and the tool paths.
+
+To check your site state edit the backstop.json as needed and run:
+
+```bash
+npm run backstop
+```
+
+
 ## Structure
 
 **<%= humanName %> Distribution**
 
 * `.gitignore`
 * `/artifacts/` - Deployable build artifacts.
+* `/backstop_data/` - Contains the casper scripts for backstop JS and the is the destination of the test results.
 * `/build/` - Build working directory.
 * `/docs` - Documentation for the distribution.
 * `/files/` - User files.

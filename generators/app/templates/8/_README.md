@@ -73,12 +73,28 @@ Once vagrant has finished provisioning and you have prepared the site finally:
 ## Site UUID.
 Site uuid can be found in the installation script. You should create a variable named `SITE_UUID` in wercker and set it to that value so that wercker builds work as expected.
 
+
+## Backstop JS
+
+This site provides this tool for visual regression testing, use it check if your changes affect your site styles or structure.
+
+configuration file: `backstop.json`
+
+this file contains all the configuration for our viewports, scenarios and the tool paths.
+
+To check your site state edit the backstop.json as needed and run:
+
+```bash
+npm run backstop
+```
+
 ## Structure
 
 **<%= humanName %> Distribution**
 
 * `.gitignore`
 * `/artifacts/` - Deployable build artifacts.
+* `/backstop_data/` - Contains the casper scripts for backstop JS and the is the destination of the test results.
 * `/build/` - Build working directory.
 * `/docs` - Documentation for the distribution.
 * `/files/` - User files.
