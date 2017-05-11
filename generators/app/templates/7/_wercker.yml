@@ -63,16 +63,6 @@ build:
             drush master-execute -y
             drush cc all
 
-            # Install dependencies for running visual regression tests with Wraith.
-            \curl -sSL https://get.rvm.io | bash -s stable
-            \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
-            source /usr/local/rvm/scripts/rvm
-            rvm install 2.4
-            rvm use 2.4
-            sudo apt-get install libicu-dev imagemagick rake -y
-            sudo npm install -g casperjs phantomjs
-            gem install wraith
-
     - script:
         name: Test all the things!
         code: |
