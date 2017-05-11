@@ -45,3 +45,7 @@ docs/*.pdf
 # Drupal VM
 default.config.yml
 .vagrant
+
+# Backstop
+backstop_data/
+!backstop_data/casper_scripts
