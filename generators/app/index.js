@@ -251,11 +251,6 @@ module.exports = yeoman.Base.extend({
         this.templatePath(this.props.version + '/' + 'themes/custom/gitkeep'),
         this.destinationPath('themes/custom/.gitkeep')
       );
-      this.fs.copyTpl(
-        this.templatePath(this.props.version + '/' + 'wraith'),
-        this.destinationPath('wraith'),
-        this.props
-      );
       if (this.props.version == 8) {
         this.fs.copyTpl(
           this.templatePath(this.props.version + '/' + 'files/config/sync'),
@@ -267,7 +262,6 @@ module.exports = yeoman.Base.extend({
     renameFilesAndFolders: function () {
       this.fs.move('circle/_manati', 'circle/' + this.props.appName);
       this.fs.move('circle/_manati.aliases.drushrc.php', 'circle/' + this.props.appName+'.aliases.drushrc.php');
-      this.fs.move('wraith/configs/_capture.yaml', 'wraith/configs/capture.yaml');
 
       this.fs.move('wercker/_manati.dev.conf', 'wercker/' + this.props.appName+'.dev.conf');
       this.fs.move('wercker/_manati.aliases.drushrc.php', 'wercker/' + this.props.appName + '.aliases.drushrc.php');
@@ -278,7 +272,6 @@ module.exports = yeoman.Base.extend({
 
       this.fs.move('scripts/_manati_local_features_test.sh', 'scripts/' + this.props.appName + '_local_features_test.sh');
       this.fs.move('scripts/_manati_local_install.sh', 'scripts/' + this.props.appName + '_local_install.sh');
-      this.fs.move('scripts/_wraith_testing.sh', 'scripts/' + this.props.appName + '_wraith_testing.sh');
 
       if (this.props.version == 7) {
         this.fs.move('profiles/' + this.props.appName + '/_manati.info', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info');
