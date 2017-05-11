@@ -22,6 +22,7 @@
     "clean": "rm -rf node_modules .aquifer",
     "build-site": "aquifer build",
     "build-theme": "gulp theme",
-    "test": "gulp phplint && gulp drupalcs && gulp eslint"
+    "test": "gulp phplint && gulp drupalcs && gulp eslint",
+    "backstop": "backstop reference && backstop test"
   }
 }
