@@ -23,6 +23,7 @@ before_script:
   # Install lint tools.
   - gem install rubocop
 script:
+  - 'which composer'
   - 'npm test'
   - 'ln -s ${PWD} ~/.nvm/versions/node/`node -v`/lib/node_modules'
   - 'mkdir $HOME/mdsktest && cd $HOME/mdsktest'
