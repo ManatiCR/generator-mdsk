@@ -137,7 +137,6 @@ mysql_users:
 # to install *any* extras, make set this value to an empty set, e.g. `[]`.
 installed_extras:
   # - adminer
-  - drupalconsole
   - mailhog
   - memcached
   - nodejs
