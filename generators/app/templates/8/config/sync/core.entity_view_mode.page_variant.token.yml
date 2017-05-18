@@ -1,0 +1,10 @@
+uuid: db737a59-a5f0-429c-a2b5-458db0aaeb47
+langcode: en
+status: true
+dependencies:
+  module:
+    - page_manager
+id: page_variant.token
+label: Token
+targetEntityType: page_variant
+cache: true
