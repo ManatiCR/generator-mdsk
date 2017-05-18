@@ -291,8 +291,8 @@ module.exports = yeoman.Base.extend({
       );
       if (this.props.version == 8) {
         this.fs.copyTpl(
-          this.templatePath(this.props.version + '/' + 'files/config/sync'),
-          this.destinationPath('files/config/sync'),
+          this.templatePath(this.props.version + '/' + 'config/sync'),
+          this.destinationPath('config/sync'),
           this.props
         );
       }
@@ -319,7 +319,7 @@ module.exports = yeoman.Base.extend({
       }
       else if (this.props.version == 8) {
         this.fs.move('profiles/' + this.props.appName + '/_manati.info.yml', 'profiles/' + this.props.appName+'/' + this.props.appName + '.info.yml');
-        this.fs.move('files/config/sync/htaccess', 'files/config/sync/.htaccess');
+        this.fs.move('config/sync/htaccess', 'config/sync/.htaccess');
       }
     }
 
