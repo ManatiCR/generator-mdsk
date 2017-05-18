@@ -87,11 +87,40 @@ module.exports = yeoman.Base.extend({
 
   writing: {
     rootFiles: function () {
-      this.fs.copyTpl(
-        this.templatePath(this.props.version + '/' + '_aquifer.json'),
-        this.destinationPath('aquifer.json'),
-        this.props
-      );
+      if (this.props.version == 7) {
+        this.fs.copyTpl(
+          this.templatePath(this.props.version + '/' + '_aquifer.json'),
+          this.destinationPath('aquifer.json'),
+          this.props
+        );
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'drupal.make.yml'),
+          this.destinationPath('drupal.make.yml')
+        );
+      }
+      else if (this.props.version == 8) {
+        this.fs.copyTpl(
+          this.templatePath(this.props.version + '/' + '_ahoy.yml'),
+          this.destinationPath('.ahoy.yml'),
+          this.props
+        );
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'composer-scripts'),
+          this.destinationPath('composer-scripts')
+        );
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'composer.drupal.json'),
+          this.destinationPath('composer.drupal.json')
+        );
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'composer.drupal.patches.json'),
+          this.destinationPath('composer.drupal.patches.json')
+        );
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'pantheon.yml'),
+          this.destinationPath('pantheon.yml')
+        );
+      }
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + '_behat.yml'),
         this.destinationPath('behat.yml'),
@@ -110,10 +139,6 @@ module.exports = yeoman.Base.extend({
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'composer.json'),
         this.destinationPath('composer.json')
-      );
-      this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'drupal.make.yml'),
-        this.destinationPath('drupal.make.yml')
       );
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + '_example.config.yml'),
