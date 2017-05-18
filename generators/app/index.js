@@ -186,14 +186,22 @@ module.exports = yeoman.Base.extend({
       );
     },
     projectFolders: function () {
-      this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'artifacts/gitkeep'),
-        this.destinationPath('artifacts/.gitkeep')
-      );
-      this.fs.copy(
-        this.templatePath(this.props.version + '/' + 'build/gitkeep'),
-        this.destinationPath('build/.gitkeep')
-      );
+      if (this.props.version == 7) {
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'artifacts/gitkeep'),
+          this.destinationPath('artifacts/.gitkeep')
+        );
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'build/gitkeep'),
+          this.destinationPath('build/.gitkeep')
+        );
+      }
+      else if (this.props.version == 8) {
+        this.fs.copy(
+          this.templatePath(this.props.version + '/' + 'web/gitkeep'),
+          this.destinationPath('web/.gitkeep')
+        );
+      }
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'files/gitkeep'),
         this.destinationPath('files/.gitkeep')
