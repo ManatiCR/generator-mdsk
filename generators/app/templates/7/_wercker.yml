@@ -249,7 +249,7 @@ deploy-multidev:
             NEWBRANCH=${NEWBRANCH,,}
             aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" -b $NEWBRANCH
     - script:
-        name: Deploy steps to pantheon dev
+        name: Deploy steps to pantheon multidev
         code: |
             echo 'Host *' >> /root/.ssh/config
             echo '   StrictHostKeyChecking no' >> /root/.ssh/config
