@@ -49,7 +49,7 @@ default:
 circle:
   extensions:
     Behat\MinkExtension:
-      base_url: http://<%= appName %>.dev:8080
+      base_url: http://<%= dashedAppName %>.dev:8080
       selenium2: ~
       browser_name: chrome
     Drupal\DrupalExtension:
@@ -60,7 +60,7 @@ circle:
 wercker:
   extensions:
     Behat\MinkExtension:
-      base_url: http://<%= appName %>.dev:8080
+      base_url: http://<%= dashedAppName %>.dev:8080
       selenium2: ~
       browser_name: chrome
     Drupal\DrupalExtension:
