@@ -29,6 +29,7 @@ script:
   - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=8 --skip-install'
   - 'cp $TRAVIS_BUILD_DIR/test/config.yml $HOME/mdsktest/'
   - 'cp $TRAVIS_BUILD_DIR/test/test.yml $HOME/mdsktest/provisioning/'
+  - 'cp $TRAVIS_BUILD_DIR/test/init-debian.yml $HOME/mdsktest/provisioning/tasks/'
   - 'composer global require drush/drush:8.x-dev'
   - echo 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"' >> ~/.bashrc
   - 'source ~/.bashrc'
