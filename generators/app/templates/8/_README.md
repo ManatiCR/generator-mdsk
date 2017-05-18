@@ -26,20 +26,6 @@ vagrant plugin install vagrant-hostsupdater
 vagrant plugin install vagrant-auto_network
 ```
 
-### Wraith
-In this generator we include Wraith for visual regression testing, to use it go to `wraith/configs/capture.yaml` and change the domains urls, the paths you want to test and the breakpoints if needed, then go back to the root path of your project and run:
-
-```
-./scripts/<%= appName %>_wraith_testing.sh
-```
-Once finished the execution of the script go to:
-
-```
-wraith/shots
-```
-And that's it, now you can make sure everything looks as expected just by opening the generated gallery in your browser.
-
-
 ## Getting started
 
 ### Prepare for local development:
@@ -87,6 +73,21 @@ Once vagrant has finished provisioning and you have prepared the site finally:
 ## Site UUID.
 Site uuid can be found in the installation script. You should create a variable named `SITE_UUID` in wercker and set it to that value so that wercker builds work as expected.
 
+
+## Backstop JS
+
+This site provides this tool for visual regression testing, use it check if your changes affect your site styles or structure.
+
+configuration file: `backstop.json`
+
+this file contains all the configuration for our viewports, scenarios and the tool paths.
+
+To check your site state edit the backstop.json as needed and run:
+
+```bash
+npm run backstop
+```
+
 ## Structure
 
 **<%= humanName %> Distribution**
@@ -94,6 +95,7 @@ Site uuid can be found in the installation script. You should create a variable 
 * `.gitignore`
 * `/artifacts/` - Deployable build artifacts.
 * `/web/` - Build working directory.
+* `/backstop_data/` - Contains the casper scripts for backstop JS and the is the destination of the test results.
 * `/docs` - Documentation for the distribution.
 * `/files/` - User files.
 * `/gulp-tasks` - Individual Gulp tasks.

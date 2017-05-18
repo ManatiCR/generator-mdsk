@@ -63,16 +63,6 @@ build:
             drush master-execute -y
             drush cc all
 
-            # Install dependencies for running visual regression tests with Wraith.
-            \curl -sSL https://get.rvm.io | bash -s stable
-            \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
-            source /usr/local/rvm/scripts/rvm
-            rvm install 2.4
-            rvm use 2.4
-            sudo apt-get install libicu-dev imagemagick rake -y
-            sudo npm install -g casperjs phantomjs
-            gem install wraith
-
     - script:
         name: Test all the things!
         code: |
@@ -88,10 +78,6 @@ build:
             drush @<%= appName %>.<%= appName %>.dev ups | grep -qi "update available" && (echo 'Updates available FAIL' && exit 1) || (echo 'No updates available PASS' && exit 0)
             # Behat tests.
             ./.vendor/bin/behat -p wercker
-            # Visual regression tests.
-            # cd wraith && wraith capture capture
-            # Store wraith shots in wercker artifacts folder.
-            # cp -r shots $WERCKER_REPORT_ARTIFACTS_DIR/
 deploy:
     steps:
     - script:
