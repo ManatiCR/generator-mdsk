@@ -10,9 +10,9 @@ env:
   matrix:
     # Defaults - Ubuntu 14.04.
     - type: defaults
-      distro: ubuntu1404
-      init: /sbin/init
-      run_opts: "--privileged"
+      distro: ubuntu1604
+      init: /lib/systemd/systemd
+      run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
 before_install:
   - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
 before_script:
@@ -27,10 +27,7 @@ script:
   - 'ln -s ${PWD} ~/.nvm/versions/node/`node -v`/lib/node_modules'
   - 'mkdir $HOME/mdsktest && cd $HOME/mdsktest'
   - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=8 --skip-install'
-  - 'mkdir -p provisioning/files/sbin'
-  - 'cp $TRAVIS_BUILD_DIR/test/initctl_faker $HOME/mdsktest/provisioning/files/sbin/'
   - 'cp $TRAVIS_BUILD_DIR/test/config.yml $HOME/mdsktest/'
-  - 'cp $TRAVIS_BUILD_DIR/test/initctlfaker.yml $HOME/mdsktest/provisioning/tasks/'
   - 'cp $TRAVIS_BUILD_DIR/test/test.yml $HOME/mdsktest/provisioning/'
   - 'composer global require drush/drush:8.x-dev'
   - echo 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"' >> ~/.bashrc
