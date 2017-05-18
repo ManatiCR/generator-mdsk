@@ -23,7 +23,6 @@ before_script:
   # Install lint tools.
   - gem install rubocop
 script:
-  - 'which composer'
   - 'npm test'
   - 'ln -s ${PWD} ~/.nvm/versions/node/`node -v`/lib/node_modules'
   - 'mkdir $HOME/mdsktest && cd $HOME/mdsktest'
@@ -35,7 +34,7 @@ script:
   - echo 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"' >> ~/.bashrc
   - 'source ~/.bashrc'
   - 'npm install'
-  - 'php -d memory_limit=-1 /usr/bin/composer install'
+  - 'php -d memory_limit=-1 /home/travis/.phpenv/shims/composer install'
   - 'tmpfile=$(mktemp)'
   - 'docker run --detach --volume="${PWD}":"${MDSK_DIR}":rw ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${tmpfile}"'
   - 'container_id=$(cat ${tmpfile})'
