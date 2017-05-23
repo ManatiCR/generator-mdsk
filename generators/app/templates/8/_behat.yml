@@ -30,9 +30,9 @@ default:
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
       drupal:
-        drupal_root: "/var/www/<%= appName %>/build"
+        drupal_root: "/var/www/<%= appName %>/web"
       drush:
-        root: "/var/www/<%= appName %>/build"
+        root: "/var/www/<%= appName %>/web"
       region_map:
         content: "#content"
         footer: "#footer"
@@ -49,20 +49,20 @@ default:
 circle:
   extensions:
     Behat\MinkExtension:
-      base_url: http://<%= appName %>.dev:8080
+      base_url: http://<%= dashedAppName %>.dev:8080
       selenium2: ~
       browser_name: chrome
     Drupal\DrupalExtension:
       drupal:
-        drupal_root: "/home/ubuntu/<%= appName %>/build"
+        drupal_root: "/home/ubuntu/<%= appName %>/web"
       drush:
-        root: "/home/ubuntu/<%= appName %>/build"
+        root: "/home/ubuntu/<%= appName %>/web"
 wercker:
   extensions:
     Behat\MinkExtension:
-      base_url: http://<%= appName %>.dev:8080
+      base_url: http://<%= dashedAppName %>.dev:8080
       selenium2: ~
       browser_name: chrome
     Drupal\DrupalExtension:
       drupal:
-        drupal_root: "/pipeline/source/build"
+        drupal_root: "/pipeline/source/web"

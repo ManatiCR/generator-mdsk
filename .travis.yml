@@ -10,9 +10,9 @@ env:
   matrix:
     # Defaults - Ubuntu 14.04.
     - type: defaults
-      distro: ubuntu1404
-      init: /sbin/init
-      run_opts: "--privileged"
+      distro: ubuntu1604
+      init: /lib/systemd/systemd
+      run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
 before_install:
   - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
 before_script:
@@ -26,18 +26,14 @@ script:
   - 'npm test'
   - 'ln -s ${PWD} ~/.nvm/versions/node/`node -v`/lib/node_modules'
   - 'mkdir $HOME/mdsktest && cd $HOME/mdsktest'
-  - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=7 --skip-install'
-  - 'mkdir -p provisioning/files/sbin'
-  - 'cp $TRAVIS_BUILD_DIR/test/initctl_faker $HOME/mdsktest/provisioning/files/sbin/'
+  - 'yo mdsk --humanName="mdsktest" --appName="mdsktest" --drupalVersion=8 --skip-install'
   - 'cp $TRAVIS_BUILD_DIR/test/config.yml $HOME/mdsktest/'
-  - 'cp $TRAVIS_BUILD_DIR/test/initctlfaker.yml $HOME/mdsktest/provisioning/tasks/'
   - 'cp $TRAVIS_BUILD_DIR/test/test.yml $HOME/mdsktest/provisioning/'
-  - 'composer install'
+  - 'cp $TRAVIS_BUILD_DIR/test/init-debian.yml $HOME/mdsktest/provisioning/tasks/'
   - 'composer global require drush/drush:8.x-dev'
   - echo 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"' >> ~/.bashrc
   - 'source ~/.bashrc'
   - 'npm install'
-  - './node_modules/.bin/aquifer build'
   - 'tmpfile=$(mktemp)'
   - 'docker run --detach --volume="${PWD}":"${MDSK_DIR}":rw ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${tmpfile}"'
   - 'container_id=$(cat ${tmpfile})'

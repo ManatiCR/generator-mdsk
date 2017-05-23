@@ -30,8 +30,8 @@ gulp.task('drupalcs', function () {
 
   return gulp.src(sourcePatterns)
     .pipe(through2.obj(function (file, enc, callback) {
-      var command = 'vendor/bin/phpcs '
-      + '--standard="vendor/drupal/coder/coder_sniffer/Drupal" '
+      var command = '.vendor/bin/phpcs '
+      + '--standard=".vendor/drupal/coder/coder_sniffer/Drupal" '
       + file.path + ' ';
       var report = exec(command);
       // If status === 1 (error).
@@ -121,8 +121,8 @@ gulp.task('drupalcs', function () {
 
         var report_file = argv.reportfile + report_name;
 
-        var command = 'vendor/bin/phpcs '
-          + '--standard="vendor/drupal/coder/coder_sniffer/Drupal" '
+        var command = '.vendor/bin/phpcs '
+          + '--standard=".vendor/drupal/coder/coder_sniffer/Drupal" '
           + '--report=' + argv.report + ' '
           + file.path + ' '
           + '--report-file=' + report_file;

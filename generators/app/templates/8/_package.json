@@ -2,7 +2,6 @@
   "name": "<%= appName %>",
   "private": true,
   "devDependencies": {
-    "aquifer": "aquifer/aquifer#42d0e8d",
     "gulp": "^3.9.0",
     "gulp-eslint": "^2.0.0",
     "gulp-if": "^2.0.0",
@@ -18,8 +17,7 @@
   "scripts": {
     "aquifer": "aquifer",
     "gulp": "gulp",
-    "clean": "rm -rf node_modules .aquifer",
-    "build-site": "aquifer build",
+    "build-site": "rm -rf web ; composer update ;  if [ $? -ne 0 ] ; then composer update ; fi",
     "build-theme": "gulp theme",
     "test": "gulp phplint && gulp drupalcs && gulp eslint"
   }
