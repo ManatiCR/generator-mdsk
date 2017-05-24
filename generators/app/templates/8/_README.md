@@ -72,10 +72,6 @@ composer install
 npm install
 ```
 
-```
-npm run build-site
-```
-
 ## Finally
 Once vagrant has finished provisioning and you have prepared the site finally:
 * Configure Solr search (adapted from [Solr for Drupal Developers](http://www.midwesternmac.com/blogs/jeff-geerling/solr-drupal-developers-part-3)) and prepare the site:

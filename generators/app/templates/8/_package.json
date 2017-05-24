@@ -17,7 +17,6 @@
   "scripts": {
     "aquifer": "aquifer",
     "gulp": "gulp",
-    "build-site": "rm -rf web ; composer update ;  if [ $? -ne 0 ] ; then composer update ; fi",
     "build-theme": "gulp theme",
     "test": "gulp phplint && gulp drupalcs && gulp eslint"
   }
