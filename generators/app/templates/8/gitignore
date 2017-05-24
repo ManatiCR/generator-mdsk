@@ -46,5 +46,6 @@ docs/*.pdf
 default.config.yml
 .vagrant
 
-# Wraith shots.
-wraith/shots
+# Backstop
+backstop_data/
+!backstop_data/casper_scripts
