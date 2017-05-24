@@ -5,13 +5,14 @@ build:
         name: Install Dependencies
         code: |
             npm install
-            composer install --prefer-source --no-interaction
     - script:
         name: Setup Global Stuff
         code: |
             cp ./wercker/<%= appName %>.aliases.drushrc.php ~/.drush
             # Drupal settings.
             cp ./wercker/wercker.settings.secret.php ./settings/settings.secret.php
+            composer update --ignore-platform-reqs
+            composer update --ignore-platform-reqs
             # Install xvfb.
             sudo apt-get install xvfb -y
             # Install Chrome.
@@ -43,9 +44,8 @@ build:
             # Prepare Drupal Installation and Install it.
             # Build the Drupal site and set files permissions.
             chown -R root:www-data ./files
-            ./node_modules/.bin/aquifer build
-            chmod 777 -R ./build/sites/default/files
-            chown -R www-data:www-data ./build/sites/default/files
+            chmod 777 -R ./web/sites/default/files
+            chown -R www-data:www-data ./web/sites/default/files
             # Set alias.
             drush site-set @<%= appName %>.<%= dashedAppName %>.dev
             drush cc drush
@@ -55,7 +55,7 @@ build:
             # Create Drupal DB
             mysql -u root -pAdmin2015 -e "create database drupal;"
             # Install Drupal and disable sendmail.
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" && drush si <%= appName %> -y ; drush config-set "system.site" uuid $SITE_UUID -y ; drush cim -y ; else /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si <%= appName %> -y ; fi
+            if [ -f /pipeline/source/config/sync/core.extension.yml ] ; then /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" && drush si <%= appName %> -y ; drush config-set "system.site" uuid $SITE_UUID -y ; drush cim -y ; else /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" drush si <%= appName %> -y ; fi
             # Post build configuration.
             drush cc drush
             drush cr
@@ -72,7 +72,7 @@ build:
             # Available updates.
             drush @<%= appName %>.<%= appName %>.dev ups | grep -qi "update available" && (echo 'Updates available FAIL' && exit 1) || (echo 'No updates available PASS' && exit 0)
             # Behat tests.
-            ./.vendor/bin/behat -p wercker
+            ./vendor/bin/behat -p wercker
 deploy:
     steps:
     - script:
@@ -86,7 +86,6 @@ deploy:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            composer install --prefer-source --no-interaction
             npm install
             echo 'Host *' >> /root/.ssh/config
             echo '   StrictHostKeyChecking no' >> /root/.ssh/config
@@ -98,13 +97,17 @@ deploy:
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
+        name: Install Ahoy
+        code: |
+            wget -q https://github.com/ahoy-cli/ahoy/releases/download/2.0.0-beta1/ahoy-bin-`uname -s`-amd64 -O /usr/local/bin/ahoy && chmod +x /usr/local/bin/ahoy
+    - script:
         name: Deploy code to pantheon
         code: |
-            echo 'Load aquifer extensions...'
-            ./node_modules/.bin/aquifer extensions-load
             echo 'Ensure we are on git mode'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
-            ./node_modules/.bin/aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" || true
+            git config --global user.email "ci@estudiomanati.com"
+            git config --global user.name "CI Bot"
+            ahoy deploy master "Auto deploy triggered from master branch"
     - script:
         name: Deploy steps to pantheon dev
         code: |
@@ -116,7 +119,7 @@ deploy:
             drush site-set @pantheon.<%= dashedAppName %>.dev
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=sftp
-            if [ -f ./files/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y ; drush cim -y ; else drush si <%= appName %> -y ; fi
+            if [ -f ./config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y ; drush cim -y ; else drush si <%= appName %> -y ; fi
             echo 'Set git'
             terminus site set-connection-mode --site=<%= dashedAppName %> --env=dev --mode=git
             # Post build configuration.
@@ -135,7 +138,6 @@ deploy-test:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            composer install --prefer-source --no-interaction
             npm install
     - script:
         name: Install Pantheon CLI
@@ -172,7 +174,6 @@ deploy-live:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            composer install --prefer-source --no-interaction
             npm install
     - script:
         name: Install Pantheon CLI
@@ -209,7 +210,6 @@ deploy-multidev:
         name: Install other dependencies
         code: |
             eval `ssh-agent`
-            composer install --prefer-source --no-interaction
             npm install
             echo 'Host *' >> /root/.ssh/config
             echo '   StrictHostKeyChecking no' >> /root/.ssh/config
@@ -221,6 +221,10 @@ deploy-multidev:
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
+        name: Install Ahoy
+        code: |
+               wget -q https://github.com/ahoy-cli/ahoy/releases/download/2.0.0-beta1/ahoy-bin-`uname -s`-amd64 -O /usr/local/bin/ahoy && chmod +x /usr/local/bin/ahoy
+    - script:
         name: Deploy code to pantheon
         code: |
             echo 'Load aquifer extensions...'
@@ -230,9 +234,9 @@ deploy-multidev:
             if [ LENGTH > 10 ] ; then NEWBRANCH=${NEWBRANCH:8:6} ; fi
             NEWBRANCH=${NEWBRANCH//-/}
             NEWBRANCH=${NEWBRANCH,,}
-            aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" -b $NEWBRANCH || true
+            ahoy deploy $NEWBRANCH "Auto deploy triggered from $WERCKER_GIT_BRANCH branch"
     - script:
-        name: Deploy steps to pantheon dev
+        name: Deploy steps to pantheon multidev
         code: |
             echo 'Host *' >> /root/.ssh/config
             echo '   StrictHostKeyChecking no' >> /root/.ssh/config
@@ -243,7 +247,7 @@ deploy-multidev:
             drush site-set @pantheon.<%= dashedAppName %>.$NEWBRANCH
             echo 'Set sftp'
             terminus site set-connection-mode --site=<%= appName %> --env=$NEWBRANCH --mode=sftp
-            if [ -f /pipeline/source/files/config/sync/core.extension.yml ] ; then drush si <%= appName %> ; drush config-set "system.site" uuid "$SITE_UUID" -y ; drush cim -y ; else drush si <%= appName %> -y ; fi
+            if [ -f /pipeline/source/config/sync/core.extension.yml ] ; then drush si <%= appName %> -y ; drush config-set "system.site" uuid "$SITE_UUID" -y ; drush cim -y ; else drush si <%= appName %> -y ; fi
             echo 'Set git'
             terminus site set-connection-mode --site=<%= appName %> --env=$NEWBRANCH --mode=git
             # Post build configuration.

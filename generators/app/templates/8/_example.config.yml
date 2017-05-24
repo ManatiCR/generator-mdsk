@@ -49,7 +49,7 @@ install_site: false
 # Settings for building a Drupal site from a makefile (if 'build_makefile:'
 # is 'true').
 drupal_major_version: 8
-drupal_core_path: "/var/www/<%= appName %>/build"
+drupal_core_path: "/var/www/<%= appName %>/web"
 drupal_domain: "{{ vagrant_hostname }}"
 drupal_site_name: "Drupal"
 drupal_install_profile: standard
@@ -137,7 +137,6 @@ mysql_users:
 # to install *any* extras, make set this value to an empty set, e.g. `[]`.
 installed_extras:
   # - adminer
-  - drupalconsole
   - mailhog
   - memcached
   - nodejs
@@ -159,7 +158,7 @@ nodejs_npm_global_packages: []
 # You can configure almost anything else on the server in the rest of this file.
 extra_security_enabled: false
 
-drush_version: master
+drush_version: 8.x
 drush_keep_updated: true
 drush_composer_cli_options: "--prefer-dist --no-interaction"
 

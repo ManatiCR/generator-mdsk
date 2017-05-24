@@ -221,7 +221,6 @@ deploy-multidev:
     - script:
         name: Install Pantheon CLI
         code: |
-            curl https://github.com/pantheon-systems/terminus/releases/download/0.11.0/terminus.phar -L -o /usr/local/bin/terminus && chmod +x /usr/local/bin/terminus
             terminus auth login --machine-token=$PANTHEON_TOKEN
             terminus sites aliases
     - script:
@@ -235,7 +234,7 @@ deploy-multidev:
             NEWBRANCH=${NEWBRANCH,,}
             aquifer deploy-git -m "Auto deploy triggered from $WERCKER_GIT_BRANCH branch" -b $NEWBRANCH
     - script:
-        name: Deploy steps to pantheon dev
+        name: Deploy steps to pantheon multidev
         code: |
             echo 'Host *' >> /root/.ssh/config
             echo '   StrictHostKeyChecking no' >> /root/.ssh/config
