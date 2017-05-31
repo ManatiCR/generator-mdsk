@@ -13,5 +13,5 @@ Builds are created in the `web` directory.
 ## Executing a build
 
 ```bash
-npm run build-site
+composer install
 ```
