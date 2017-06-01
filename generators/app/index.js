@@ -65,7 +65,7 @@ module.exports = yeoman.Base.extend({
           value: '8'
         }
       ],
-        default: 7
+        default: '8'
       });
     }
 
