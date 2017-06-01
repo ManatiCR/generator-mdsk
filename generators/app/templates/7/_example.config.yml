@@ -183,6 +183,7 @@ drush_version: 8.1.11
 drush_keep_updated: true
 drush_composer_cli_options: "--prefer-dist --no-interaction"
 
+firewall_enabled: true
 firewall_allowed_tcp_ports:
   - "22"
   - "25"
