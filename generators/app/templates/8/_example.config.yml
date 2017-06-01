@@ -9,7 +9,7 @@ vagrant_gui: false
 # If you need to run multiple instances of Drupal VM, set a unique hostname,
 # machine name, and IP address for each instance.
 vagrant_hostname: <%= dashedAppName %>.dev
-vagrant_machine_name: <%= appName %>
+vagrant_machine_name: <%= dashedAppName %>
 vagrant_ip: 0.0.0.0
 hostname_configure: true
 
