@@ -11,7 +11,7 @@ vagrant_gui: false
 vagrant_hostname: <%= dashedAppName %>.dev
 vagrant_machine_name: <%= appName %>
 vagrant_ip: 0.0.0.0
-hostname_configure: false
+hostname_configure: true
 
 # Allow Drupal VM to be accessed via a public network interface on your host.
 # Vagrant boxes are insecure by default, so be careful. You've been warned!
