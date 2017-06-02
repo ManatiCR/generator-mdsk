@@ -4,6 +4,9 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
 var uuidV4 = require('uuid/v4');
+var fs = require('fs');
+var xml2js = require('xml2js');
+var https = require('https');
 
 module.exports = yeoman.Base.extend({
   constructor: function () {
@@ -79,9 +82,35 @@ module.exports = yeoman.Base.extend({
 
       if (this.props.version == '8') {
         this.props.siteUuid = uuidV4();
-      }
+        this.props.coreVersion = '8.3.2';
+        var self = this;
 
-      done();
+        var parser = new xml2js.Parser();
+        var url = 'https://updates.drupal.org/release-history/drupal/' + this.props.version + '.x';
+        https.get(url, function (res) {
+          var xml = '';
+          res.on('data', function (chunk) {
+            xml += chunk;
+          });
+          res.on('error', function (chunk) {
+            // Failed; use default version.
+            done();
+          });
+          res.on('timeout', function (chunk) {
+            // Failed; use default version.
+            done();
+          });
+          res.on('end', function (chunk) {
+            parser.parseString(xml, function (err, result) {
+              self.props.coreVersion = result.project.releases[0].release[0].version;
+              done();
+            });
+          });
+        })
+      }
+      else {
+        done();
+      }
     }.bind(this));
   },
 
@@ -108,9 +137,10 @@ module.exports = yeoman.Base.extend({
           this.templatePath(this.props.version + '/' + 'composer-scripts'),
           this.destinationPath('composer-scripts')
         );
-        this.fs.copy(
-          this.templatePath(this.props.version + '/' + 'composer.drupal.json'),
-          this.destinationPath('composer.drupal.json')
+        this.fs.copyTpl(
+          this.templatePath(this.props.version + '/' + '_composer.drupal.json'),
+          this.destinationPath('composer.drupal.json'),
+          this.props
         );
         this.fs.copy(
           this.templatePath(this.props.version + '/' + 'composer.drupal.patches.json'),
