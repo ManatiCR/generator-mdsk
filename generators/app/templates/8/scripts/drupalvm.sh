@@ -9,8 +9,14 @@ git clone git@github.com:geerlingguy/drupal-vm.git
 echo "Erasing old provisioning directory..."
 rm -Rf $cwd/provisioning
 
+echo "Erasing old lib directory..."
+rm -Rf $cwd/lib
+
 echo "Copying provisioning..."
 cp -R drupal-vm/provisioning $cwd/provisioning
+
+echo "Copying lib"
+cp -R drupal-vm/lib $cwd/lib
 
 echo "Overwriting Vagrantfile..."
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 DRUSH="./.vendor/bin/drush"
-SITE_ALIAS="@<%= appName %>.<%= dashedAppName %>.dev"
+SITE_ALIAS="@<%= dashedAppName %>.<%= dashedAppName %>.dev"
 $DRUSH $SITE_ALIAS cc drush
 echo "Installing..."
 $DRUSH $SITE_ALIAS si <%=appName %> --account-pass=admin -y
