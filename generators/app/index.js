@@ -68,7 +68,7 @@ module.exports = yeoman.Base.extend({
           value: '8'
         }
       ],
-        default: 7
+        default: '8'
       });
     }
 
@@ -300,6 +300,10 @@ module.exports = yeoman.Base.extend({
       this.fs.copy(
         this.templatePath(this.props.version + '/' + 'provisioning'),
         this.destinationPath('provisioning')
+      );
+      this.fs.copy(
+        this.templatePath(this.props.version + '/' + 'lib'),
+        this.destinationPath('lib')
       );
       this.fs.copyTpl(
         this.templatePath(this.props.version + '/' + 'scripts'),
