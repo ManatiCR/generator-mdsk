@@ -7,66 +7,77 @@
     "makeFile": "drupal.make.yml"
   },
   "sync": {
-    "directories": {
-      "root": {
-        "destination": "",
-        "method": "symlink",
-        "conflict": "overwrite"
-      },
-      "modules/custom": {
-        "destination": "sites/all/modules/custom",
-        "method": "symlink",
-        "conflict": "overwrite"
-      },
-      "modules/features": {
-        "destination": "sites/all/modules/features",
-        "method": "symlink",
-        "conflict": "overwrite"
-      },
-      "themes/custom": {
-        "destination": "sites/all/themes/custom",
-        "method": "symlink",
-        "conflict": "overwrite"
-      },
-      "profiles/<%= appName %>": {
-        "destination": "profiles/<%= appName %>",
-        "method": "symlink",
-        "conflict": "overwrite"
-      },
-      "files": {
-        "destination": "sites/default/files",
-        "method": "symlink",
-        "conflict": "overwrite"
-      }
+    "root": {
+      "destination": "",
+      "method": "symlink",
+      "conflict": "overwrite",
+      "type": "dir",
+      "hook": "postBuild",
+      "required": true,
+      "contents": true
+    },
+    "modules/custom": {
+      "destination": "sites/all/modules/custom",
+      "method": "symlink",
+      "conflict": "overwrite",
+      "type": "dir",
+      "hook": "postBuild",
+      "required": true
+    },
+    "modules/features": {
+      "destination": "sites/all/modules/features",
+      "method": "symlink",
+      "conflict": "overwrite",
+      "type": "dir",
+      "hook": "postBuild",
+      "required": true
+    },
+    "themes/custom": {
+      "destination": "sites/all/themes/custom",
+      "method": "symlink",
+      "conflict": "overwrite",
+      "type": "dir",
+      "hook": "postBuild",
+      "required": true
+    },
+    "profiles/<%= appName %>": {
+      "destination": "profiles/<%= appName %>",
+      "method": "symlink",
+      "conflict": "overwrite",
+      "type": "dir",
+      "hook": "postBuild",
+      "required": true
+    },
+    "settings": {
+      "destination": "sites/default",
+      "method": "symlink",
+      "conflict": "overwrite",
+      "type": "file",
+      "hook": "postBuild",
+      "required": true,
+      "contents": true
     },
     "files": {
-      "settings/settings.php": {
-        "destination": "sites/default/settings.php",
-        "method": "symlink",
-        "conflict": "overwrite"
-      },
-      "settings/settings.secret.php": {
-        "destination": "sites/default/settings.secret.php",
-        "method": "symlink",
-        "conflict": "overwrite"
-      },
-      "settings/settings.local.php": {
-        "destination": "sites/default/settings.local.php",
-        "method": "symlink",
-        "conflict": "overwrite"
-      }
+      "destination": "sites/default/files",
+      "method": "symlink",
+      "conflict": "overwrite",
+      "type": "dir",
+      "hook": "postBuild",
+      "contents": true
     }
   },
   "run": {
     "scripts": {
       "refresh": [
-        "drush updb -y",
-        "drush cc all",
+        "drush cc drush",
         "drush en -y master",
         "drush master-execute -y --scope=local",
+        "drush updb -y",
+        "drush cc all",
         "drush fra -y"
       ]
     },
+    "preSync": [],
     "postBuild": []
   },
   "extensions": {
