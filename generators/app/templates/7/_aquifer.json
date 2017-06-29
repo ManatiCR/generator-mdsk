@@ -82,24 +82,26 @@
   },
   "extensions": {
     "aquifer-git": {
-      "source": "aquifer-git",
-      "remote": "",
-      "branch": "master",
-      "name": "CI Bot",
-      "email": "ci@estudiomanati.com",
-      "deploymentFiles": [
-        {
-          "src": "root/.gitignore",
-          "dest": ".gitignore"
-        },
-        {
-          "src": "root/.htaccess",
-          "dest": ".htaccess"
-        }
-      ],
-      "excludeLinks": ["sites/default/files"],
-      "addlinks": [],
-      "delPatterns": ["*", "!.git"]
+      "source": "aquifer/aquifer-git#51b2730",
+      "config": {
+        "remote": "",
+        "branch": "master",
+        "name": "CI Bot",
+        "email": "ci@estudiomanati.com",
+        "deploymentFiles": [
+          {
+            "src": "root/.gitignore",
+            "dest": ".gitignore"
+          },
+          {
+            "src": "root/.htaccess",
+            "dest": ".htaccess"
+          }
+        ],
+        "excludeLinks": ["sites/default/files"],
+        "addlinks": [],
+        "delPatterns": ["*", "!.git"]
+      }
     }
   },
   "environments": {}
